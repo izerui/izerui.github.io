@@ -24,7 +24,7 @@
 比如 tomcat cluster session 广播、nginx IP hash策略、nginx sticky module等方案，
 本文主要介绍了使用 re">
 <meta property="og:image" content="http://images.cnitblog.com/blog/536814/201501/301356402377480.png">
-<meta property="og:updated_time" content="2015-08-25T23:51:01.000Z">
+<meta property="og:updated_time" content="2015-08-26T01:02:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用redis配置tomcat共享session">
 <meta name="twitter:description" content="tomcat-redis-session-manager
@@ -127,7 +127,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/redis-session/" style="font-size: 10px;">redis session</a>
+						<a href="/tags/session/" style="font-size: 10px;">session</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a>
 					</div>
 				</section>
 				
@@ -215,7 +215,7 @@
       <div class="article-info article-info-post">
         
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis-session/">redis session</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/session/">session</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tomcat/">tomcat</a></li></ul>
 	</div>
 
         
@@ -239,16 +239,11 @@
 <li>redis2.8</li>
 </ul>
 <h2 id="nginx_负载均衡配置">nginx 负载均衡配置</h2><ol>
-<li><p>修改nginx conf配置文件加入</p>
-<pre><code>upstream tomcat {
-    server <span class="number">200.10</span><span class="number">.10</span><span class="number">.67</span>:<span class="number">8110</span>;
-    server <span class="number">200.10</span><span class="number">.10</span><span class="number">.67</span>:<span class="number">8120</span>;
-    server <span class="number">200.10</span><span class="number">.10</span><span class="number">.44</span>:<span class="number">8110</span>;
-    server <span class="number">200.10</span><span class="number">.10</span><span class="number">.66</span>:<span class="number">8110</span>;
-}
-</code></pre></li>
-<li><p>配置 相应的server或者 location地址到 <a href="http://tomcat" target="_blank" rel="external">http://tomcat</a></p>
-</li>
+<li>修改nginx conf配置文件加入</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat &#123;</span><br><span class="line">	server <span class="number">200.10</span><span class="number">.10</span><span class="number">.67</span>:<span class="number">8110</span>;</span><br><span class="line">	server <span class="number">200.10</span><span class="number">.10</span><span class="number">.67</span>:<span class="number">8120</span>;</span><br><span class="line">	server <span class="number">200.10</span><span class="number">.10</span><span class="number">.44</span>:<span class="number">8110</span>;</span><br><span class="line">	server <span class="number">200.10</span><span class="number">.10</span><span class="number">.66</span>:<span class="number">8110</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>配置 相应的server或者 location地址到 <a href="http://tomcat" target="_blank" rel="external">http://tomcat</a></li>
 </ol>
 <h2 id="tomcat_session共享配置步骤">tomcat session共享配置步骤</h2><ol>
 <li><p>添加redis session集群依赖的jar包到 TOMCAT_BASE/lib 目录下</p>
@@ -261,54 +256,39 @@
 </ol>
 <ol>
 <li><p>修改 TOMCAT_BASE/conf 目录下的 context.xml 文件</p>
-<pre><code><span class="tag">&lt;<span class="title">Valve</span> <span class="attribute">className</span>=<span class="value">"com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve"</span> /&gt;</span>
-<span class="tag">&lt;<span class="title">Manager</span> <span class="attribute">className</span>=<span class="value">"com.orangefunction.tomcat.redissessions.RedisSessionManager"</span>
- <span class="attribute">host</span>=<span class="value">"localhost"</span>
- <span class="attribute">port</span>=<span class="value">"6379"</span>
- <span class="attribute">database</span>=<span class="value">"0"</span>
- <span class="attribute">maxInactiveInterval</span>=<span class="value">"60"</span>
- <span class="attribute">sessionPersistPolicies</span>=<span class="value">"PERSIST_POLICY_1,PERSIST_POLICY_2,.."</span>
- <span class="attribute">sentinelMaster</span>=<span class="value">"SentinelMasterName"</span>
- <span class="attribute">sentinels</span>=<span class="value">"sentinel-host-1:port,sentinel-host-2:port,.."</span>/&gt;</span>
-</code></pre><p> 属性解释：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">Valve</span> <span class="attribute">className</span>=<span class="value">"com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">Manager</span> <span class="attribute">className</span>=<span class="value">"com.orangefunction.tomcat.redissessions.RedisSessionManager"</span></span><br><span class="line"> <span class="attribute">host</span>=<span class="value">"localhost"</span></span><br><span class="line"> <span class="attribute">port</span>=<span class="value">"6379"</span></span><br><span class="line"> <span class="attribute">database</span>=<span class="value">"0"</span></span><br><span class="line"> <span class="attribute">maxInactiveInterval</span>=<span class="value">"60"</span></span><br><span class="line"> <span class="attribute">sessionPersistPolicies</span>=<span class="value">"PERSIST_POLICY_1,PERSIST_POLICY_2,.."</span></span><br><span class="line"> <span class="attribute">sentinelMaster</span>=<span class="value">"SentinelMasterName"</span></span><br><span class="line"> <span class="attribute">sentinels</span>=<span class="value">"sentinel-host-1:port,sentinel-host-2:port,.."</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p> 属性解释：</p>
 <ul>
 <li><strong>host</strong>                         redis服务器地址</li>
 <li><strong>port</strong>                         redis服务器的端口号</li>
 <li><strong>database</strong>                     要使用的redis数据库索引</li>
 <li><strong>maxInactiveInterval</strong>         session最大空闲超时时间，如果不填则使用tomcat的超时时长，一般tomcat默认为1800 即半个小时</li>
-<li><p><strong>sessionPersistPolicies</strong>        session保存策略，除了默认的策略还可以选择的策略有：</p>
-<p>   [SAVE_ON_CHANGE]:每次 session.setAttribute() 、 session.removeAttribute() 触发都会保存. </p>
-<pre><code>注意：此功能无法检测已经存在redis的特定属性的变化，
-权衡：这种策略会略微降低会话的性能，任何改变都会保存到redis中.
-</code></pre></li>
+<li><strong>sessionPersistPolicies</strong>        session保存策略，除了默认的策略还可以选择的策略有：</li>
+<li><strong>[SAVE_ON_CHANGE]</strong>:每次 session.setAttribute() 、 session.removeAttribute() 触发都会保存. 注意：此功能无法检测已经存在redis的特定属性的变化，权衡：这种策略会略微降低会话的性能，任何改变都会保存到redis中.</li>
+<li><strong>[ALWAYS_SAVE_AFTER_REQUEST]</strong>: 每一个request请求后都强制保存，无论是否检测到变化.注意：对于更改一个已经存储在redis中的会话属性，该选项特别有用.     权衡：如果不是所有的request请求都要求改变会话属性的话不推荐使用，因为会增加并发竞争的情况。</li>
+<li><strong>sentinelMaster</strong>        redis集群主节点名称（Redis集群是以分片(Sharding)加主从的方式搭建，满足可扩展性的要求）</li>
+<li><strong>sentinels</strong>                redis集群列表配置(类似zookeeper，通过多个Sentinel来提高系统的可用性)</li>
+<li><strong>connectionPoolMaxTotal</strong>    </li>
+<li><strong>connectionPoolMaxIdle</strong>    jedis最大能够保持idel状态的连接数</li>
+<li><strong>connectionPoolMinIdle</strong>    与connectionPoolMaxIdle相反</li>
+<li><strong>maxWaitMillis</strong>    jedis池没有对象返回时，最大等待时间</li>
+<li><strong>minEvictableIdleTimeMillis</strong></li>
+<li><strong>softMinEvictableIdleTimeMillis</strong></li>
+<li><strong>numTestsPerEvictionRun</strong></li>
+<li><strong>testOnCreate</strong></li>
+<li><strong>testOnBorrow</strong>    jedis调用borrowObject方法时，是否进行有效检查</li>
+<li><strong>testOnReturn</strong>    jedis调用returnObject方法时，是否进行有效检查</li>
+<li><strong>testWhileIdle</strong></li>
+<li><strong>timeBetweenEvictionRunsMillis</strong></li>
+<li><strong>evictionPolicyClassName</strong></li>
+<li><strong>blockWhenExhausted</strong></li>
+<li><strong>jmxEnabled</strong></li>
+<li><strong>jmxNameBase</strong></li>
+<li><strong>jmxNamePrefix</strong></li>
 </ul>
 </li>
-</ol>
-<pre><code>        [ALWAYS_SAVE_AFTER_REQUEST]: 每一个request请求后都强制保存，无论是否检测到变化.
-            注意：对于更改一个已经存储在redis中的会话属性，该选项特别有用. 
-            权衡：如果不是所有的request请求都要求改变会话属性的话不推荐使用，因为会增加并发竞争的情况。
-<span class="keyword">*</span> <span class="keyword">*</span><span class="keyword">*</span>sentinelMaster<span class="keyword">*</span><span class="keyword">*</span>        redis集群主节点名称（Redis集群是以分片(Sharding)加主从的方式搭建，满足可扩展性的要求）
-<span class="keyword">*</span> <span class="keyword">*</span><span class="keyword">*</span>sentinels<span class="keyword">*</span><span class="keyword">*</span>                redis集群列表配置(类似zookeeper，通过多个Sentinel来提高系统的可用性)
-<span class="keyword">*</span> <span class="keyword">*</span><span class="keyword">*</span>connectionPoolMaxTotal<span class="keyword">*</span><span class="keyword">*</span>    
-<span class="keyword">*</span> <span class="keyword">*</span><span class="keyword">*</span>connectionPoolMaxIdle<span class="keyword">*</span><span class="keyword">*</span>    jedis最大能够保持idel状态的连接数
-<span class="keyword">*</span> <span class="keyword">*</span><span class="keyword">*</span>connectionPoolMinIdle<span class="keyword">*</span><span class="keyword">*</span>    与connectionPoolMaxIdle相反
-<span class="keyword">*</span> <span class="keyword">*</span><span class="keyword">*</span>maxWaitMillis<span class="keyword">*</span><span class="keyword">*</span>    jedis池没有对象返回时，最大等待时间
-<span class="keyword">*</span> <span class="keyword">*</span><span class="keyword">*</span>minEvictableIdleTimeMillis<span class="keyword">*</span><span class="keyword">*</span>
-<span class="keyword">*</span> <span class="keyword">*</span><span class="keyword">*</span>softMinEvictableIdleTimeMillis<span class="keyword">*</span><span class="keyword">*</span>
-<span class="keyword">*</span> <span class="keyword">*</span><span class="keyword">*</span>numTestsPerEvictionRun<span class="keyword">*</span><span class="keyword">*</span>
-<span class="keyword">*</span> <span class="keyword">*</span><span class="keyword">*</span>testOnCreate<span class="keyword">*</span><span class="keyword">*</span>
-<span class="keyword">*</span> <span class="keyword">*</span><span class="keyword">*</span>testOnBorrow<span class="keyword">*</span><span class="keyword">*</span>    jedis调用borrowObject方法时，是否进行有效检查
-<span class="keyword">*</span> <span class="keyword">*</span><span class="keyword">*</span>testOnReturn<span class="keyword">*</span><span class="keyword">*</span>    jedis调用returnObject方法时，是否进行有效检查
-<span class="keyword">*</span> <span class="keyword">*</span><span class="keyword">*</span>testWhileIdle<span class="keyword">*</span><span class="keyword">*</span>
-<span class="keyword">*</span> <span class="keyword">*</span><span class="keyword">*</span>timeBetweenEvictionRunsMillis<span class="keyword">*</span><span class="keyword">*</span>
-<span class="keyword">*</span> <span class="keyword">*</span><span class="keyword">*</span>evictionPolicyClassName<span class="keyword">*</span><span class="keyword">*</span>
-<span class="keyword">*</span> <span class="keyword">*</span><span class="keyword">*</span>blockWhenExhausted<span class="keyword">*</span><span class="keyword">*</span>
-<span class="keyword">*</span> <span class="keyword">*</span><span class="keyword">*</span>jmxEnabled<span class="keyword">*</span><span class="keyword">*</span>
-<span class="keyword">*</span> <span class="keyword">*</span><span class="keyword">*</span>jmxNameBase<span class="keyword">*</span><span class="keyword">*</span>
-<span class="keyword">*</span> <span class="keyword">*</span><span class="keyword">*</span>jmxNamePrefix<span class="keyword">*</span><span class="keyword">*</span>
-<span class="keyword">*</span> <span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span><span class="keyword">*</span>
-</code></pre><ol>
-<li>重启tomcat，session存储即可生效</li>
+<li><p>重启tomcat，session存储即可生效</p>
+</li>
 </ol>
 
       
