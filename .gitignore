@@ -5,6 +5,6 @@ db.json
 node_modules/
 public/
 .deploy*/
-.idea
+.idea/
 *.iml
-target
+target/
