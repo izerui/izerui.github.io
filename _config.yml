@@ -73,3 +73,6 @@ deploy:
   type: git
   repo: https://github.com/izerui/izerui.github.io.git
   branch: master
+
+# avatar
+avatar: https://avatars0.githubusercontent.com/u/1773233?v=3&s=460

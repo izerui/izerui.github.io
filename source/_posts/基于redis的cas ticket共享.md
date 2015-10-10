@@ -1,6 +1,6 @@
 title: '基于redis的cas ticket共享'
 date: 2015-08-26 21:18:26
-tags:
+tags: [redis,cas,ticket]
 ---
 # 实现cas ticket基于redis的集群
 

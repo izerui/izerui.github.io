@@ -1,6 +1,6 @@
 title: struts2-modelDriven高级应用
 date: 2015-08-26 21:33:59
-tags:
+tags: [struts2,modelDriven]
 ---
 
 struts2 modelDriven 高级应用

@@ -1,6 +1,6 @@
 title: 使用redis配置tomcat共享session
 date: 2015-08-26 00:20:47
-tags: [tomcat,session]
+tags: [tomcat,session,redis]
 ---
 # tomcat-redis-session-manager
 

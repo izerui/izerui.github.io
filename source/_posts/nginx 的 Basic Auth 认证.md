@@ -1,7 +1,7 @@
 layout: nginx
 title: 使用nginx 实现Basic Auth认证
 date: 2015-10-10 10:13:57
-tags:
+tags: [nginx,ssl,auth]
 ---
 ### 以centos 系统为例:
 
