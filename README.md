@@ -22,7 +22,7 @@ https://hexo.io/zh-cn/docs/
 
 新建文章：（会在source下生成相关md文件）
 
-    hexo new title
+    hexo new [title]
     
 本地查看：
 
