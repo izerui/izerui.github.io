@@ -7,7 +7,7 @@ title: 泽睿的自言自语
 subtitle: spring boot 分布式技术
 description: spring boot 分布式技术
 author: 泽睿的自言自语
-language: zh-TW
+language: zh-Hans
 timezone: Asia/Shanghai
 
 # URL
@@ -64,7 +64,8 @@ pagination_dir: page
 ## Plugins: http://hexo.io/plugins/
 ## Themes: http://hexo.io/themes/
 #theme: landscape
-theme: yilia
+#theme: yilia
+theme: next
 
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
