@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="modelDriven,struts2," />
+  <meta name="keywords" content="zookeeper," />
 
 
 
@@ -39,75 +39,50 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="struts2 modelDriven 高级应用
+<meta name="description" content="又是一个清明小长假，一个人远在深圳也没有回家，闲来无事写了一个zookeeper的数据浏览器。上图：
+ 
+使用上的技术：
 
-#封装的第四种Action传参方式
-##传统的struts传参有三种
+spring boot 
+flex
+zookeeper curator client
+shiro security
+fastxml jackson 
+spring mvc restful
 
-
-通过属性传参
-
-
-
-通过域模型传参
-
-
-
-通过模型驱动传参数
-
-
-
-##以上这三种各有利弊,总之一句话概括,无法完全的实现业务和参数分离.总得在自己的Action中定义相关的get set 方法.
-希望能实现参数传递跟业务action完全分离.故封装了模型驱动参数获取方式.">
+基于spring boot微服务做的一个应用，以 独立jar包发布，内嵌了tomcat">
 <meta property="og:type" content="article">
-<meta property="og:title" content="struts2-modelDriven高级应用">
-<meta property="og:url" content="http://boot.ren/2015/08/26/struts2-modelDriven高级应用/index.html">
+<meta property="og:title" content="zookeeper 数据浏览器">
+<meta property="og:url" content="http://boot.ren/2015/04/07/zookeeper 数据浏览器/index.html">
 <meta property="og:site_name" content="Spring Boot">
-<meta property="og:description" content="struts2 modelDriven 高级应用
+<meta property="og:description" content="又是一个清明小长假，一个人远在深圳也没有回家，闲来无事写了一个zookeeper的数据浏览器。上图：
+ 
+使用上的技术：
 
-#封装的第四种Action传参方式
-##传统的struts传参有三种
+spring boot 
+flex
+zookeeper curator client
+shiro security
+fastxml jackson 
+spring mvc restful
 
-
-通过属性传参
-
-
-
-通过域模型传参
-
-
-
-通过模型驱动传参数
-
-
-
-##以上这三种各有利弊,总之一句话概括,无法完全的实现业务和参数分离.总得在自己的Action中定义相关的get set 方法.
-希望能实现参数传递跟业务action完全分离.故封装了模型驱动参数获取方式.">
-<meta property="og:image" content="https://travis-ci.org/izerui/struts2-advanced-modelDriven.svg?branch=master">
-<meta property="og:image" content="http://dl.iteye.com/upload/picture/pic/130175/017e87c4-e4a6-3da8-92c6-7502a0e84486.png">
-<meta property="og:updated_time" content="2015-10-10T07:54:38.000Z">
+基于spring boot微服务做的一个应用，以 独立jar包发布，内嵌了tomcat">
+<meta property="og:image" content="https://raw.githubusercontent.com/izerui/zookeeper-explorer/master/src/main/resources/public/assets/img/sample.png">
+<meta property="og:updated_time" content="2015-10-10T08:59:57.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="struts2-modelDriven高级应用">
-<meta name="twitter:description" content="struts2 modelDriven 高级应用
+<meta name="twitter:title" content="zookeeper 数据浏览器">
+<meta name="twitter:description" content="又是一个清明小长假，一个人远在深圳也没有回家，闲来无事写了一个zookeeper的数据浏览器。上图：
+ 
+使用上的技术：
 
-#封装的第四种Action传参方式
-##传统的struts传参有三种
+spring boot 
+flex
+zookeeper curator client
+shiro security
+fastxml jackson 
+spring mvc restful
 
-
-通过属性传参
-
-
-
-通过域模型传参
-
-
-
-通过模型驱动传参数
-
-
-
-##以上这三种各有利弊,总之一句话概括,无法完全的实现业务和参数分离.总得在自己的Action中定义相关的get set 方法.
-希望能实现参数传递跟业务action完全分离.故封装了模型驱动参数获取方式.">
+基于spring boot微服务做的一个应用，以 独立jar包发布，内嵌了tomcat">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -117,7 +92,7 @@
   };
 </script>
 
-  <title> struts2-modelDriven高级应用 | Spring Boot </title>
+  <title> zookeeper 数据浏览器 | Spring Boot </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -216,7 +191,7 @@
           
           
             
-              struts2-modelDriven高级应用
+              zookeeper 数据浏览器
             
           
         </h1>
@@ -225,8 +200,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-08-26T21:33:59+08:00" content="2015-08-26">
-            2015-08-26
+          <time itemprop="dateCreated" datetime="2015-04-07T22:20:57+08:00" content="2015-04-07">
+            2015-04-07
           </time>
         </span>
 
@@ -236,8 +211,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/08/26/struts2-modelDriven高级应用/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/26/struts2-modelDriven高级应用/" itemprop="commentsCount"></span>
+              <a href="/2015/04/07/zookeeper 数据浏览器/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/07/zookeeper 数据浏览器/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -251,56 +226,20 @@
       
 
       
-        <span itemprop="articleBody"><p>struts2 modelDriven 高级应用</p>
-<p><a href="https://travis-ci.org/izerui/struts2-advanced-modelDriven" target="_blank" rel="external"><img src="https://travis-ci.org/izerui/struts2-advanced-modelDriven.svg?branch=master" alt="Build Status"></a></p>
-<p>#封装的第四种Action传参方式</p>
-<p>##传统的struts传参有三种</p>
-<ul>
-<li><ol>
-<li>通过属性传参</li>
+        <span itemprop="articleBody"><p>又是一个清明小长假，一个人远在深圳也没有回家，闲来无事写了一个zookeeper的数据浏览器。<br>上图：</p>
+<p> <img src="https://raw.githubusercontent.com/izerui/zookeeper-explorer/master/src/main/resources/public/assets/img/sample.png"></p>
+<p>使用上的技术：</p>
+<ol>
+<li>spring boot </li>
+<li>flex</li>
+<li>zookeeper curator client</li>
+<li>shiro security</li>
+<li>fastxml jackson </li>
+<li>spring mvc restful</li>
 </ol>
-</li>
-<li><ol>
-<li>通过域模型传参</li>
-</ol>
-</li>
-<li><ol>
-<li>通过模型驱动传参数</li>
-</ol>
-</li>
-</ul>
-<p>##以上这三种各有利弊,总之一句话概括,无法完全的实现业务和参数分离.总得在自己的Action中定义相关的get set 方法.</p>
-<p>希望能实现参数传递跟业务action完全分离.故封装了模型驱动参数获取方式.</p>
-<p>#如此一来,action 还可以这样写:</p>
-<p>-Action</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">YourAction</span> <span class="keyword">extends</span> <span class="title">BaseActionSupport</span>&lt;<span class="title">YourParam</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//TODO your code ....</span></span><br><span class="line">    <span class="comment">//在需要获取request参数的地方只需要通过 formParam对象get你需要的参数即可</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>-param class 就是一个简单的po类.随你写喽!</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">yourParam</span></span>&#123;</span><br><span class="line">    <span class="comment">// 各种 param fields</span></span><br><span class="line">    <span class="comment">// 各种 get set</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>#OK 所有的action请求,都会自动的封装到你定义的param类中. 前提这个类要有不带参数的构造方法,要有你希望获取的参数的get set 方法.</p>
-<p>其实就是把action中的各种 get set 放到了一个统一的param类中.</p>
-<p>一个action  一个 param类. 是不是很清晰.业务跟参数代码分离了. struts action 是不是更易读了.</p>
-<h1 id="附:_顺带将_BaseActionSupport_放入了一个applicationContext">附: 顺带将 BaseActionSupport 放入了一个applicationContext</h1><h2 id="这样所有的action_都可以直接使用applicationContext_对象,如果您不喜欢可以自行去掉-">这样所有的action 都可以直接使用applicationContext 对象,如果您不喜欢可以自行去掉.</h2><p>##步骤如下:</p>
-<ul>
-<li><ol>
-<li>删除 protected ApplicationContext applicationContext;</li>
-</ol>
-</li>
-<li><ol>
-<li>删除 applicationContext 的 set方法</li>
-</ol>
-</li>
-<li><ol>
-<li>去掉实现的接口 ApplicationContextAware</li>
-</ol>
-</li>
-</ul>
-<p>#不过建议留着吧.</p>
-<ul>
-<li>当你用上 spring 的event 的时候,你会需要它.</li>
-<li>当你需要动态的根据className 或者 classType 获取bean 的时候,你会需要它.</li>
-<li></li>
-</ul>
-<p><img src="http://dl.iteye.com/upload/picture/pic/130175/017e87c4-e4a6-3da8-92c6-7502a0e84486.png" alt="图"></p>
+<p>基于spring boot微服务做的一个应用，以 独立jar包发布，内嵌了tomcat容器。因为一直也没有找到合适的可以方便管理和查看 zookeeper 数据的一个东东。就自己做了一个，方便公司的zk管理。</p>
+<p>有兴趣的。或者也有同样需求的可以down下来玩玩。 东西虽小五张俱全。操作权限该有的都有。</p>
+<p>项目地址： <a href="https://github.com/izerui/zookeeper-explorer" target="_blank" rel="external">https://github.com/izerui/zookeeper-explorer</a></p>
 </span>
       
     </div>
@@ -309,9 +248,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/modelDriven/" rel="tag">#modelDriven</a>
-          
-            <a href="/tags/struts2/" rel="tag">#struts2</a>
+            <a href="/tags/zookeeper/" rel="tag">#zookeeper</a>
           
         </div>
       
@@ -320,13 +257,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/10/10/nginx 的 Basic Auth 认证/" rel="prev">使用nginx 实现Basic Auth认证</a>
+              <a href="/2015/08/26/使用redis配置tomcat共享session/" rel="prev">使用redis配置tomcat共享session</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
-            
-              <a href="/2015/08/26/spring-boot监控/" rel="next">spring-boot监控</a>
             
           </div>
         </div>
@@ -351,8 +286,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/08/26/struts2-modelDriven高级应用/"
-                   data-title="struts2-modelDriven高级应用" data-url="http://boot.ren/2015/08/26/struts2-modelDriven高级应用/">
+              <div class="ds-thread" data-thread-key="2015/04/07/zookeeper 数据浏览器/"
+                   data-title="zookeeper 数据浏览器" data-url="http://boot.ren/2015/04/07/zookeeper 数据浏览器/">
               </div>
             
           </div>
@@ -434,7 +369,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#附:_顺带将_BaseActionSupport_放入了一个applicationContext"><span class="nav-number">1.</span> <span class="nav-text">附: 顺带将 BaseActionSupport 放入了一个applicationContext</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#这样所有的action_都可以直接使用applicationContext_对象,如果您不喜欢可以自行去掉-"><span class="nav-number">1.1.</span> <span class="nav-text">这样所有的action 都可以直接使用applicationContext 对象,如果您不喜欢可以自行去掉.</span></a></li></ol></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
