@@ -14,3 +14,5 @@ hexo 目录如下：
 https://hexo.io/zh-cn/docs/setup.html
 写作：
 https://hexo.io/zh-cn/docs/writing.html
+部署：
+https://hexo.io/zh-cn/docs/deployment.html
