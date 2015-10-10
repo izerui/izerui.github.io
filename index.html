@@ -955,6 +955,84 @@ management.context-path=/management
 
 
     
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2013/11/24/flex-区域-鼠标画矩形选择组件/" itemprop="url">
+                flex 区域,鼠标画矩形选择组件 
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2013-11-24T21:49:17+08:00" content="2013-11-24">
+            2013-11-24
+          </time>
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2013/11/24/flex-区域-鼠标画矩形选择组件/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2013/11/24/flex-区域-鼠标画矩形选择组件/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><p>网上类似的代码也不少.但是都只是自己工程中单独贴出来的代码片段. 并不适合通用场景,存在很多bug<br>举个例子:</p>
+<ol>
+<li>如果画框所属的父组件存在滚动的条. 获取的矩形区域大小和坐标就会错乱</li>
+<li>如果画矩形过程中,鼠标移出目标组件, 该矩形事件无法继续传播,等等.一些bug</li>
+</ol>
+<p>今天我把自己工程画框单独剥离出来成一个组件调用.</p>
+<p>如下图:</p>
+<p><img src="http://dl2.iteye.com/upload/attachment/0091/5073/17b5bc9d-e217-330e-9d31-9cefa400c02b.png"></p>
+<p>下面是一个demo工程代码,及整个源码提供大家下载</p>
+<p><a href="/files/RectangleDraw.rar">RectangleDraw.rar</a> </p>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -989,7 +1067,7 @@ management.context-path=/management
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

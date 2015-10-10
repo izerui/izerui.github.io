@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="android,android-cn," />
+  <meta name="keywords" content="flex," />
 
 
 
@@ -39,19 +39,44 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="android-cngithub： https://github.com/android-cn
-网站： http://www.codekk.com">
+<meta name="description" content="网上类似的代码也不少.但是都只是自己工程中单独贴出来的代码片段. 并不适合通用场景,存在很多bug举个例子:
+
+如果画框所属的父组件存在滚动的条. 获取的矩形区域大小和坐标就会错乱
+如果画矩形过程中,鼠标移出目标组件, 该矩形事件无法继续传播,等等.一些bug
+
+今天我把自己工程画框单独剥离出来成一个组件调用.
+如下图:
+
+下面是一个demo工程代码,及整个源码提供大家下载
+RectangleDr">
 <meta property="og:type" content="article">
-<meta property="og:title" content="推荐一个很不错的学习android的圈子">
-<meta property="og:url" content="http://boot.ren/2015/08/26/推荐一个很不错的学习android的圈子/index.html">
+<meta property="og:title" content="flex 区域,鼠标画矩形选择组件 ">
+<meta property="og:url" content="http://boot.ren/2013/11/24/flex-区域-鼠标画矩形选择组件/index.html">
 <meta property="og:site_name" content="Spring Boot">
-<meta property="og:description" content="android-cngithub： https://github.com/android-cn
-网站： http://www.codekk.com">
-<meta property="og:updated_time" content="2015-10-10T07:55:05.000Z">
+<meta property="og:description" content="网上类似的代码也不少.但是都只是自己工程中单独贴出来的代码片段. 并不适合通用场景,存在很多bug举个例子:
+
+如果画框所属的父组件存在滚动的条. 获取的矩形区域大小和坐标就会错乱
+如果画矩形过程中,鼠标移出目标组件, 该矩形事件无法继续传播,等等.一些bug
+
+今天我把自己工程画框单独剥离出来成一个组件调用.
+如下图:
+
+下面是一个demo工程代码,及整个源码提供大家下载
+RectangleDr">
+<meta property="og:image" content="http://dl2.iteye.com/upload/attachment/0091/5073/17b5bc9d-e217-330e-9d31-9cefa400c02b.png">
+<meta property="og:updated_time" content="2015-10-10T09:20:34.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="推荐一个很不错的学习android的圈子">
-<meta name="twitter:description" content="android-cngithub： https://github.com/android-cn
-网站： http://www.codekk.com">
+<meta name="twitter:title" content="flex 区域,鼠标画矩形选择组件 ">
+<meta name="twitter:description" content="网上类似的代码也不少.但是都只是自己工程中单独贴出来的代码片段. 并不适合通用场景,存在很多bug举个例子:
+
+如果画框所属的父组件存在滚动的条. 获取的矩形区域大小和坐标就会错乱
+如果画矩形过程中,鼠标移出目标组件, 该矩形事件无法继续传播,等等.一些bug
+
+今天我把自己工程画框单独剥离出来成一个组件调用.
+如下图:
+
+下面是一个demo工程代码,及整个源码提供大家下载
+RectangleDr">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -61,7 +86,7 @@
   };
 </script>
 
-  <title> 推荐一个很不错的学习android的圈子 | Spring Boot </title>
+  <title> flex 区域,鼠标画矩形选择组件  | Spring Boot </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -160,7 +185,7 @@
           
           
             
-              推荐一个很不错的学习android的圈子
+              flex 区域,鼠标画矩形选择组件 
             
           
         </h1>
@@ -169,8 +194,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-08-26T21:11:38+08:00" content="2015-08-26">
-            2015-08-26
+          <time itemprop="dateCreated" datetime="2013-11-24T21:49:17+08:00" content="2013-11-24">
+            2013-11-24
           </time>
         </span>
 
@@ -180,8 +205,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/08/26/推荐一个很不错的学习android的圈子/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/26/推荐一个很不错的学习android的圈子/" itemprop="commentsCount"></span>
+              <a href="/2013/11/24/flex-区域-鼠标画矩形选择组件/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2013/11/24/flex-区域-鼠标画矩形选择组件/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -195,8 +220,16 @@
       
 
       
-        <span itemprop="articleBody"><h1 id="android-cn">android-cn</h1><p>github： <a href="https://github.com/android-cn" target="_blank" rel="external">https://github.com/android-cn</a></p>
-<p>网站： <a href="http://www.codekk.com" target="_blank" rel="external">http://www.codekk.com</a></p>
+        <span itemprop="articleBody"><p>网上类似的代码也不少.但是都只是自己工程中单独贴出来的代码片段. 并不适合通用场景,存在很多bug<br>举个例子:</p>
+<ol>
+<li>如果画框所属的父组件存在滚动的条. 获取的矩形区域大小和坐标就会错乱</li>
+<li>如果画矩形过程中,鼠标移出目标组件, 该矩形事件无法继续传播,等等.一些bug</li>
+</ol>
+<p>今天我把自己工程画框单独剥离出来成一个组件调用.</p>
+<p>如下图:</p>
+<p><img src="http://dl2.iteye.com/upload/attachment/0091/5073/17b5bc9d-e217-330e-9d31-9cefa400c02b.png"></p>
+<p>下面是一个demo工程代码,及整个源码提供大家下载</p>
+<p><a href="/files/RectangleDraw.rar">RectangleDraw.rar</a> </p>
 </span>
       
     </div>
@@ -205,9 +238,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/android/" rel="tag">#android</a>
-          
-            <a href="/tags/android-cn/" rel="tag">#android-cn</a>
+            <a href="/tags/flex/" rel="tag">#flex</a>
           
         </div>
       
@@ -216,13 +247,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/08/26/基于redis的cas ticket共享/" rel="prev">基于redis的cas ticket共享</a>
+              <a href="/2013/11/25/ObjectHandles2-升级版-增加鼠标样式-拖动样式/" rel="prev">ObjectHandles2 升级版, 增加鼠标样式,拖动样式</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
-            
-              <a href="/2015/08/26/使用redis配置tomcat共享session/" rel="next">使用redis配置tomcat共享session</a>
             
           </div>
         </div>
@@ -247,8 +276,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/08/26/推荐一个很不错的学习android的圈子/"
-                   data-title="推荐一个很不错的学习android的圈子" data-url="http://boot.ren/2015/08/26/推荐一个很不错的学习android的圈子/">
+              <div class="ds-thread" data-thread-key="2013/11/24/flex-区域-鼠标画矩形选择组件/"
+                   data-title="flex 区域,鼠标画矩形选择组件 " data-url="http://boot.ren/2013/11/24/flex-区域-鼠标画矩形选择组件/">
               </div>
             
           </div>
@@ -330,7 +359,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#android-cn"><span class="nav-number">1.</span> <span class="nav-text">android-cn</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
