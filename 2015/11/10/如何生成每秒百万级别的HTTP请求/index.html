@@ -1,0 +1,664 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="Spring Boot 分布式技术博客" />
+
+
+
+  <meta name="keywords" content="http,百万请求," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="本文是构建能够每秒处理 3 百万请求的高性能 Web 集群系列文章的第一篇。它记录了我使用负载生成器工具的一些经历，希望它能帮助每一个像我一样不得不使用这些工具的人节省时间。
+负载生成器是一些生成用于测试的流量的程序。它们可以向你展示服务器在高负载的情况下的性能，以及让你能够找出服务器可能存在的问题。通过负载测试了解服务器的缺点，是测试服务器弹性以及未雨绸缪的好方法。
+负载生成工具（Load-Ge">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何生成每秒百万级别的HTTP请求">
+<meta property="og:url" content="http://boot.ren/2015/11/10/如何生成每秒百万级别的HTTP请求/index.html">
+<meta property="og:site_name" content="泽睿的自言自语">
+<meta property="og:description" content="本文是构建能够每秒处理 3 百万请求的高性能 Web 集群系列文章的第一篇。它记录了我使用负载生成器工具的一些经历，希望它能帮助每一个像我一样不得不使用这些工具的人节省时间。
+负载生成器是一些生成用于测试的流量的程序。它们可以向你展示服务器在高负载的情况下的性能，以及让你能够找出服务器可能存在的问题。通过负载测试了解服务器的缺点，是测试服务器弹性以及未雨绸缪的好方法。
+负载生成工具（Load-Ge">
+<meta property="og:image" content="http://boot.ren/files/4.pic.jpg">
+<meta property="og:updated_time" content="2015-11-10T16:46:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何生成每秒百万级别的HTTP请求">
+<meta name="twitter:description" content="本文是构建能够每秒处理 3 百万请求的高性能 Web 集群系列文章的第一篇。它记录了我使用负载生成器工具的一些经历，希望它能帮助每一个像我一样不得不使用这些工具的人节省时间。
+负载生成器是一些生成用于测试的流量的程序。它们可以向你展示服务器在高负载的情况下的性能，以及让你能够找出服务器可能存在的问题。通过负载测试了解服务器的缺点，是测试服务器弹性以及未雨绸缪的好方法。
+负载生成工具（Load-Ge">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 如何生成每秒百万级别的HTTP请求 | 泽睿的自言自语 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">泽睿的自言自语</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              如何生成每秒百万级别的HTTP请求
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-11-10T22:30:37+08:00" content="2015-11-10">
+            2015-11-10
+          </time>
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2015/11/10/如何生成每秒百万级别的HTTP请求/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/10/如何生成每秒百万级别的HTTP请求/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>本文是构建能够每秒处理 3 百万请求的高性能 Web 集群系列文章的第一篇。它记录了我使用负载生成器工具的一些经历，希望它能帮助每一个像我一样不得不使用这些工具的人节省时间。</p>
+<p>负载生成器是一些生成用于测试的流量的程序。它们可以向你展示服务器在高负载的情况下的性能，以及让你能够找出服务器可能存在的问题。通过负载测试了解服务器的缺点，是测试服务器弹性以及未雨绸缪的好方法。</p>
+<p>负载生成工具（Load-Generating Tools）</p>
+<p>在进行负责测试时要牢记一件重要的事：你能在 Linux 上建立多少个 socket 连接。这个限制是硬编码在内核里的，最典型的就是临时 W 端口的限制。（在某种程度上）你可以在 /etc/sysctl.conf 里扩展它。但是基本上，一台 Linux 机器只能同时打开大约 64,000 个 socket 。因此在负载测试时，我们不得不通过在单一的连接上尽可能多地发出请求来充分利用 socket 。 除此之外，我们还需要不止一台的机器来产生负载。否则，负载生成器会把可用的 socket 占用导致不能产生足够的负载。</p>
+<p>我一开始用的是‘ab’，Apache Bench 。它是我所知道的 http 基准测试工具中最简单、最通用的。并且它是 Apache 附带的产品，因此它可能已经存在于你的系统中。不幸的是，我在使用它的时候每秒大约只能生成 900 个请求。虽然我见过其他人使用它每秒能达到 2,000 个请求，但我可以立即告诉你，‘ab’并不适合我们的基准测试。</p>
+<h1 id="Httperf">Httperf</h1><p>接着，我尝试了 ‘httperf’。这个工具更强大，但是它依然相对简单并且功能有限。要算出每秒生产了多少个请求并不是仅传递参数那么简单。经过我的多次尝试，获取了每秒超过几百请求的结果。例如：</p>
+<p>它以每秒 1,000 个的速率创建了 100,000 个会话（session）。每次会话发起 5 次请求，时间间隔为 2 秒。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">httperf --hog --server=<span class="number">192.168</span><span class="number">.122</span><span class="number">.10</span> --wsess=<span class="number">100000</span>,<span class="number">5</span>,<span class="number">2</span> --rate <span class="number">1000</span> --timeout <span class="number">5</span></span><br><span class="line"></span><br><span class="line">Total: connections <span class="number">117557</span> requests <span class="number">219121</span> replies <span class="number">116697</span> test-duration <span class="number">111.423</span> s</span><br><span class="line"></span><br><span class="line">Connection rate: <span class="number">1055.0</span> conn/s (<span class="number">0.9</span> ms/conn, &lt;=<span class="number">1022</span> concurrent connections)</span><br><span class="line">Connection time [ms]: min <span class="number">0.3</span> avg <span class="number">865.9</span> max <span class="number">7912.5</span> median <span class="number">459.5</span> stddev <span class="number">993.1</span></span><br><span class="line">Connection time [ms]: connect <span class="number">31.1</span></span><br><span class="line">Connection length [replies/conn]: <span class="number">1.000</span></span><br><span class="line"></span><br><span class="line">Request rate: <span class="number">1966.6</span> req/s (<span class="number">0.5</span> ms/req)</span><br><span class="line">Request size [B]: <span class="number">91.0</span></span><br><span class="line"></span><br><span class="line">Reply rate [replies/s]: min <span class="number">59.4</span> avg <span class="number">1060.3</span> max <span class="number">1639.7</span> stddev <span class="number">475.2</span> (<span class="number">22</span> samples)</span><br><span class="line">Reply time [ms]: response <span class="number">56.3</span> transfer <span class="number">0.0</span></span><br><span class="line">Reply size [B]: header <span class="number">267.0</span> content <span class="number">18.0</span> footer <span class="number">0.0</span> (total <span class="number">285.0</span>)</span><br><span class="line">Reply status: <span class="number">1</span>xx=<span class="number">0</span> <span class="number">2</span>xx=<span class="number">116697</span> <span class="number">3</span>xx=<span class="number">0</span> <span class="number">4</span>xx=<span class="number">0</span> <span class="number">5</span>xx=<span class="number">0</span></span><br><span class="line"></span><br><span class="line">CPU time [s]: user <span class="number">9.68</span> system <span class="number">101.72</span> (user <span class="number">8.7</span>% system <span class="number">91.3</span>% total <span class="number">100.0</span>%)</span><br><span class="line">Net I/O: <span class="number">467.5</span> KB/s (<span class="number">3.8</span>*<span class="number">10</span>^<span class="number">6</span> bps)</span><br></pre></td></tr></table></figure>
+<p>最终，我使用这些设置达到了每秒 6,622 个连接：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">httperf --hog --server <span class="number">192.168</span><span class="number">.122</span><span class="number">.10</span> --num-conn <span class="number">100000</span> --ra <span class="number">20000</span> --timeout <span class="number">5</span></span><br></pre></td></tr></table></figure>
+<p>（总共创建了 100,000 个连接，并且以每秒 20,000 个连接的固定速率创建）</p>
+<p>它还有一些潜在的优势，并且拥有比‘ab‘更多的特性。但它不是我要用在这个项目里的重量级工具。我需要的是能够支持分布式多负载测试节点的工具。因此，我的下一个尝试是：Jmeter。</p>
+<h1 id="Apache_Jmeter">Apache Jmeter</h1><p>这是一个功能齐全的 web 应用测试套件，它可以模拟真实用户的所有行为。你可以使用 Jmeter 的代理去访问你的网站，进行点击、登陆、模仿用户可以做的所有行为。Jemeter 会把这些行为记录下来作为测试用例。然后 Jmeter 会反复执行这些动作来模拟你想要的用户数量。尽管配置 Jmeter 比 ‘ab‘ 和 ’httperf‘ 复杂得多，但它是一个很有趣的工具！</p>
+<p>根据我的测试，它每秒可以产生 14,000 个请求！这绝对是一个好的进展。</p>
+<p>我使用了 Googlle Code project 上的一些插件，并且使用它们的“Stepping Threads”和“HTTP RAW”请求，最终每秒大约可以产生 30,000 个请求！但这已经达到极限了，所以还要寻找另一个工具。这里有一个我之前的 Jmeter 配置，希望可以帮助到其他人。虽然这个配置离完美相差甚远，但有时它可以满足你的要求。</p>
+<h1 id="Tsung:_重型的（heavy-duty）、分布式的、多协议测试工具">Tsung: 重型的（heavy-duty）、分布式的、多协议测试工具</h1><p>它每秒基本可以产生 40,000 个请求，这绝对是我们想要的工具。类似于 Jmeter，你可以把一些行为记录下来在测试时运行，并且可以测试大多数的协议。比如 SSL、HHTP、WebDAV、SOAP、PostgreSQL、MySQL、LDAP 和 Jabber/XMPP。与 Jmeter 不同的是，它没有让人感到迷茫的 GUI 设置，它仅有一个 XML 配置文件，和一些你选择的分布式节点的 SSH 密钥。它的简洁和效率对我的吸引力，完全不亚于它的健壮性和可扩展性。我发现它是一个很强大的工具，在正确的配置下它可以每秒产生百万级的 HTTP 请求。</p>
+<p>除此之外，Tsung 还可以在 html 上产生图表以及输入你的测试的详细报告。测试的结果通俗易懂，并且你甚至可以把这些图片展示给你的 boss 看！</p>
+<p>在这个系列文章的剩余部分，我还会讲解这个工具。现在你可以继续浏览下面的配置说明，或者直接跳到下一页。</p>
+<p>在 CentOS 6.2 上安装 Tsung</p>
+<p>首先，你要安装（Erlang 需要的） EPEL 源。因此，在进行下一步之前要把它安装好。安装完后，继续安装你用来产生负载的每个节点需要的包。如果你还没有在节点之间建立无密码 SSH 密钥（passwordless SSH key），那么请建立之。</p>
+<p>yum -y install erlang perl perl-RRD-Simple.noarch perl-Log-Log4perl-RRDs.noarch gnuplot perl-Template-Toolkit firefox</p>
+<p>从 Github 或者 Tsung 的官网上下载最新的 Tsung。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget <span class="string">http:</span><span class="comment">//tsung.erlang-projects.org/dist/tsung-1.4.2.tar.gz</span></span><br></pre></td></tr></table></figure>
+<p>解压并且编译。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar zxfv  tsung-<span class="number">1.4</span><span class="number">.2</span>.tar.gz</span><br><span class="line">cd tsung-<span class="number">1.4</span><span class="number">.2</span></span><br><span class="line">./configure &amp;&amp; make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<p>把示例配置复制到 ~/.tsung 目录里。这是 Tsung 的配置文件和日志文件的存放地方。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp  <span class="regexp">/usr/</span>share<span class="regexp">/doc/</span>tsung<span class="regexp">/examples/</span>http_simple.xml <span class="regexp">/root/</span>.tsung<span class="regexp">/tsung.xml</span></span><br></pre></td></tr></table></figure>
+<p>你可以根据你的需求去编辑这个配置文件，或者使用我的配置文件。经过大量的尝试以及失败后，我目前的配置文件在使用 7 个分布式节点时可以每秒产生 5 百万个 HTTP 请求。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="pi">&lt;?xml version="1.0"?&gt;</span></span><br><span class="line"><span class="doctype">&lt;!DOCTYPE tsung SYSTEM "/usr/share/tsung/tsung-1.0.dtd"&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">tsung</span> <span class="attribute">loglevel</span>=<span class="value">"notice"</span> <span class="attribute">version</span>=<span class="value">"1.0"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">clients</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">client</span> <span class="attribute">host</span>=<span class="value">"localhost"</span> <span class="attribute">weight</span>=<span class="value">"1"</span> <span class="attribute">cpu</span>=<span class="value">"10"</span> <span class="attribute">maxusers</span>=<span class="value">"40000"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">ip</span> <span class="attribute">value</span>=<span class="value">"192.168.122.2"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">client</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">client</span> <span class="attribute">host</span>=<span class="value">"loadnode1"</span> <span class="attribute">weight</span>=<span class="value">"1"</span> <span class="attribute">cpu</span>=<span class="value">"9"</span> <span class="attribute">maxusers</span>=<span class="value">"40000"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">ip</span> <span class="attribute">value</span>=<span class="value">"192.168.122.2"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">client</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">client</span> <span class="attribute">host</span>=<span class="value">"loadnode2"</span> <span class="attribute">weight</span>=<span class="value">"1"</span> <span class="attribute">maxusers</span>=<span class="value">"40000"</span> <span class="attribute">cpu</span>=<span class="value">"8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">ip</span> <span class="attribute">value</span>=<span class="value">"192.168.122.3"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">client</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">client</span> <span class="attribute">host</span>=<span class="value">"loadnode3"</span> <span class="attribute">weight</span>=<span class="value">"1"</span> <span class="attribute">maxusers</span>=<span class="value">"40000"</span> <span class="attribute">cpu</span>=<span class="value">"9"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">ip</span> <span class="attribute">value</span>=<span class="value">"192.168.122.21"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">client</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">client</span> <span class="attribute">host</span>=<span class="value">"loadnode4"</span> <span class="attribute">weight</span>=<span class="value">"1"</span> <span class="attribute">maxusers</span>=<span class="value">"40000"</span> <span class="attribute">cpu</span>=<span class="value">"9"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">ip</span> <span class="attribute">value</span>=<span class="value">"192.168.122.11"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">client</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">client</span> <span class="attribute">host</span>=<span class="value">"loadnode5"</span> <span class="attribute">weight</span>=<span class="value">"1"</span> <span class="attribute">maxusers</span>=<span class="value">"40000"</span> <span class="attribute">cpu</span>=<span class="value">"9"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">ip</span> <span class="attribute">value</span>=<span class="value">"192.168.122.12"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">client</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">client</span> <span class="attribute">host</span>=<span class="value">"loadnode6"</span> <span class="attribute">weight</span>=<span class="value">"1"</span> <span class="attribute">maxusers</span>=<span class="value">"40000"</span> <span class="attribute">cpu</span>=<span class="value">"9"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">ip</span> <span class="attribute">value</span>=<span class="value">"192.168.122.13"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">client</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">client</span> <span class="attribute">host</span>=<span class="value">"loadnode7"</span> <span class="attribute">weight</span>=<span class="value">"1"</span> <span class="attribute">maxusers</span>=<span class="value">"40000"</span> <span class="attribute">cpu</span>=<span class="value">"9"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">ip</span> <span class="attribute">value</span>=<span class="value">"192.168.122.14"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">client</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">clients</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">servers</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">server</span> <span class="attribute">host</span>=<span class="value">"192.168.122.10"</span> <span class="attribute">port</span>=<span class="value">"80"</span> <span class="attribute">type</span>=<span class="value">"tcp"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">servers</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">load</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">arrivalphase</span> <span class="attribute">phase</span>=<span class="value">"1"</span> <span class="attribute">duration</span>=<span class="value">"10"</span> <span class="attribute">unit</span>=<span class="value">"minute"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">users</span> <span class="attribute">maxnumber</span>=<span class="value">"15000"</span> <span class="attribute">arrivalrate</span>=<span class="value">"8"</span> <span class="attribute">unit</span>=<span class="value">"second"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">arrivalphase</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">arrivalphase</span> <span class="attribute">phase</span>=<span class="value">"2"</span> <span class="attribute">duration</span>=<span class="value">"10"</span> <span class="attribute">unit</span>=<span class="value">"minute"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">users</span> <span class="attribute">maxnumber</span>=<span class="value">"15000"</span> <span class="attribute">arrivalrate</span>=<span class="value">"8"</span> <span class="attribute">unit</span>=<span class="value">"second"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">arrivalphase</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">arrivalphase</span> <span class="attribute">phase</span>=<span class="value">"3"</span> <span class="attribute">duration</span>=<span class="value">"30"</span> <span class="attribute">unit</span>=<span class="value">"minute"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">users</span> <span class="attribute">maxnumber</span>=<span class="value">"20000"</span> <span class="attribute">arrivalrate</span>=<span class="value">"3"</span> <span class="attribute">unit</span>=<span class="value">"second"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">arrivalphase</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="title">load</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">sessions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">session</span> <span class="attribute">probability</span>=<span class="value">"100"</span> <span class="attribute">name</span>=<span class="value">"ab"</span> <span class="attribute">type</span>=<span class="value">"ts_http"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">for</span> <span class="attribute">from</span>=<span class="value">"1"</span> <span class="attribute">to</span>=<span class="value">"10000000"</span> <span class="attribute">var</span>=<span class="value">"i"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">request</span>&gt;</span> <span class="tag">&lt;<span class="title">http</span> <span class="attribute">url</span>=<span class="value">"/test.txt"</span> <span class="attribute">method</span>=<span class="value">"GET"</span> <span class="attribute">version</span>=<span class="value">"1.1"</span>/&gt;</span> <span class="tag">&lt;/<span class="title">request</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">for</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">session</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">sessions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">tsung</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>刚开始的时候有很多东西要理解，但你一旦理解了它们后就会变得很简单。</p>
+<p><client> 只是简单地指定了运行 Tsung 的主机。你可以指定 Tsung 使用的 IP 和 CPU 的最大数。你可以使用 maxusers 设置节点能够模拟的用户数量上限。每一个用户都会执行我们之后定义的操作。</client></p>
+<p><servers> 指定了你要测试的 HTTP 服务器。我们可以使用这个选项去测试一个 IP 集群，或者一个单一的服务器。</servers></p>
+<p><load> 定义了我们的模拟用户将会在什么时候“到达”我们的网站。以及它们达到的有多快。</load></p>
+<p><arrivalphase> 在持续了 10 分钟的第一个阶段里，以 每秒 8 个用户的速率到达了 15,000 个用户。</arrivalphase></p>
+<p><arrivalphase phase="”1″" duration="”10″" unit="”minute”"></arrivalphase></p>
+<p><users maxnumber="”15000″" arrivalrate="”8″" unit="”second”/"><br>这里还有两个 arrivalphases，它们的用户都以同样的方式达到。<br>这些 arrivalphases 一起组成了一个 <load>，它控制了我们可以每秒产生多少个请求。</load></users></p>
+<p><session> 这部分定义了一旦这些用户达到了你的网站，它们将会执行什么动作。<br>probability 允许你定义用户可能会做的随机事件。有时他们可能点击这里，有时他们可能点击那里。所有的Probability 加起来一定要等于 100% 。<br>在上面的配置里，用户只做一件事，所以它的 probability 等于 100% 。</session></p>
+<p><for from="”1″" to="”10000000″" var="”i”"> 这就是用户在 100% 的时间里做的事情。它们循环遍历 10,000,000 次并且 <request> 一个网页：/test.txt 。<br>这个循环结构允许我们使用少量的用户连接去获取比较大的每秒请求数量。</request></for></p>
+<p>一旦你已经很好地理解了它们，你就可以创建一个便利的别名，去快速观察 Tsung 报告。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br><span class="line"><span class="built_in">alias</span> treport=<span class="string">"/usr/lib/tsung/bin/tsung_stats.pl; firefox report.html"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
+<p>然后启动 Tsung</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@loadnode1 ~] tsung <span class="operator"><span class="keyword">start</span></span><br><span class="line"><span class="keyword">Starting</span> Tsung</span><br><span class="line"><span class="string">"Log directory is: /root/.tsung/log/20120421-1004"</span></span></span><br></pre></td></tr></table></figure>
+<p>结束后观察报告</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /root/.tsung/<span class="built_in">log</span>/<span class="number">20120421</span>-<span class="number">1004</span></span><br><span class="line">treport</span><br></pre></td></tr></table></figure>
+<p><img src="/files/4.pic.jpg"></p>
+<p>使用 Tsung 去规划你的集群构造</p>
+<p>现在我们拥有了一个足够强大的负载测试工具，我们可以规划余下的集群构造了：</p>
+<ol>
+<li>使用 Tsung 去测试一个单一的 HTTP 服务器。获取一个基本的基准。</li>
+<li>对 web 服务器进行调优，定期使用 Tsung 进行测试提高性能。</li>
+<li>对这些系统的 TCP 套接字进行调优，获取最佳的网络性能。再来一次，测试，测试，不停地测试。</li>
+<li>构造 LVS 集群，它包含了这些充分调优过的 web 服务器。</li>
+<li>使用 Tsung IP 集群对 LVS 进行压力测试。</li>
+</ol>
+<p>在之后的两篇文章里，我将会向你展示如何使你的 web 服务器获取最高性能，以及怎样用 LVS 集群软件把它们整合起来。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/http/" rel="tag">#http</a>
+          
+            <a href="/tags/百万请求/" rel="tag">#百万请求</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/10/Geode数据管理平台/" rel="next">Geode数据管理平台</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2015/11/10/如何生成每秒百万级别的HTTP请求/"
+                   data-title="如何生成每秒百万级别的HTTP请求" data-url="http://boot.ren/2015/11/10/如何生成每秒百万级别的HTTP请求/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <a href="https://github.com/izerui"><img class="site-author-image" src="https://avatars0.githubusercontent.com/u/1773233?v=3&s=460" alt="serv" itemprop="image"/></a>
+          <p class="site-author-name" itemprop="name">serv</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">Spring Boot 分布式技术博客</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Httperf"><span class="nav-number">1.</span> <span class="nav-text">Httperf</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Apache_Jmeter"><span class="nav-number">2.</span> <span class="nav-text">Apache Jmeter</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tsung:_重型的（heavy-duty）、分布式的、多协议测试工具"><span class="nav-number">3.</span> <span class="nav-text">Tsung: 重型的（heavy-duty）、分布式的、多协议测试工具</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">serv</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1256526924'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1256526924%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"izerui"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
