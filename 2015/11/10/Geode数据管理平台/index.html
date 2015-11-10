@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="auth,nginx,ssl," />
+  <meta name="keywords" content="geode," />
 
 
 
@@ -39,22 +39,26 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="以centos 系统为例:添加httpd-tools工具1yum -y install httpd-tools
-修改nginx 配置文件1vi /etc/nginx/conf.d/default.conf
-在server内增加1234location /basic &amp;#123;    auth_basic &quot;Basic Auth&quot;;     auth_basic_user_file &quot;/etc/n">
+<meta name="description" content="#概述
+Geode是一个提供实时、一致访问大型分布式云平台下数据密集型应用的数据管理平台。最近开源啦！
+Geode 通过跨多进程，把内存、CPU、网络资源和可选的本地磁盘汇集起来，来管理应用程序对象及其行为。它使用动态复制和数据分片技术，来实现高可用性，改善性能、可伸缩性和容错。Geode 除了是一个分布式数据容器，它还是一个内存数据管理系统，提供了可靠的异步事件通知和有保证的消息传递。
+Geod">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用nginx 实现Basic Auth认证">
-<meta property="og:url" content="http://boot.ren/2015/10/10/nginx 的 Basic Auth 认证/index.html">
+<meta property="og:title" content="Geode数据管理平台">
+<meta property="og:url" content="http://boot.ren/2015/11/10/Geode数据管理平台/index.html">
 <meta property="og:site_name" content="泽睿的自言自语">
-<meta property="og:description" content="以centos 系统为例:添加httpd-tools工具1yum -y install httpd-tools
-修改nginx 配置文件1vi /etc/nginx/conf.d/default.conf
-在server内增加1234location /basic &amp;#123;    auth_basic &quot;Basic Auth&quot;;     auth_basic_user_file &quot;/etc/n">
-<meta property="og:updated_time" content="2015-10-10T07:53:36.000Z">
+<meta property="og:description" content="#概述
+Geode是一个提供实时、一致访问大型分布式云平台下数据密集型应用的数据管理平台。最近开源啦！
+Geode 通过跨多进程，把内存、CPU、网络资源和可选的本地磁盘汇集起来，来管理应用程序对象及其行为。它使用动态复制和数据分片技术，来实现高可用性，改善性能、可伸缩性和容错。Geode 除了是一个分布式数据容器，它还是一个内存数据管理系统，提供了可靠的异步事件通知和有保证的消息传递。
+Geod">
+<meta property="og:image" content="http://mmbiz.qpic.cn/mmbiz/DmibiaFiaAI4B2Dw1ibA61L3vXicWbp7Rz8hv3Yaxvtl9phswChRiaDpiajJIYibmtibwX72SA4SwlibvfHVaPic8TA8nGiaXA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1">
+<meta property="og:updated_time" content="2015-11-10T13:33:38.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用nginx 实现Basic Auth认证">
-<meta name="twitter:description" content="以centos 系统为例:添加httpd-tools工具1yum -y install httpd-tools
-修改nginx 配置文件1vi /etc/nginx/conf.d/default.conf
-在server内增加1234location /basic &amp;#123;    auth_basic &quot;Basic Auth&quot;;     auth_basic_user_file &quot;/etc/n">
+<meta name="twitter:title" content="Geode数据管理平台">
+<meta name="twitter:description" content="#概述
+Geode是一个提供实时、一致访问大型分布式云平台下数据密集型应用的数据管理平台。最近开源啦！
+Geode 通过跨多进程，把内存、CPU、网络资源和可选的本地磁盘汇集起来，来管理应用程序对象及其行为。它使用动态复制和数据分片技术，来实现高可用性，改善性能、可伸缩性和容错。Geode 除了是一个分布式数据容器，它还是一个内存数据管理系统，提供了可靠的异步事件通知和有保证的消息传递。
+Geod">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -64,7 +68,7 @@
   };
 </script>
 
-  <title> 使用nginx 实现Basic Auth认证 | 泽睿的自言自语 </title>
+  <title> Geode数据管理平台 | 泽睿的自言自语 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -163,7 +167,7 @@
           
           
             
-              使用nginx 实现Basic Auth认证
+              Geode数据管理平台
             
           
         </h1>
@@ -172,8 +176,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-10-10T10:13:57+08:00" content="2015-10-10">
-            2015-10-10
+          <time itemprop="dateCreated" datetime="2015-11-10T21:23:08+08:00" content="2015-11-10">
+            2015-11-10
           </time>
         </span>
 
@@ -183,8 +187,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/10/10/nginx 的 Basic Auth 认证/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/10/nginx 的 Basic Auth 认证/" itemprop="commentsCount"></span>
+              <a href="/2015/11/10/Geode数据管理平台/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/10/Geode数据管理平台/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -198,13 +202,63 @@
       
 
       
-        <span itemprop="articleBody"><h3 id="以centos_系统为例:">以centos 系统为例:</h3><p>添加httpd-tools工具<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y <span class="keyword">install</span> httpd-tools</span><br></pre></td></tr></table></figure></p>
-<p>修改nginx 配置文件<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi <span class="regexp">/etc/</span>nginx<span class="regexp">/conf.d/</span><span class="keyword">default</span>.conf</span><br></pre></td></tr></table></figure></p>
-<p>在server内增加<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">location</span> /basic &#123;</span><br><span class="line">    <span class="title">auth_basic</span> <span class="string">"Basic Auth"</span>; </span><br><span class="line">    <span class="title">auth_basic_user_file</span> <span class="string">"/etc/nginx/.htpasswd"</span>; </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
-<p>创建一个用户 fedora 替换成你自己的账号，回车输入密码并确认<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">htpasswd -c /etc/nginx/<span class="class">.htpasswd</span> fedora</span><br></pre></td></tr></table></figure></p>
-<p>重启nginx服务<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/etc/</span>rc.d<span class="regexp">/init.d/</span>nginx restart</span><br></pre></td></tr></table></figure></p>
-<p>或者<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">service</span> nginx reload</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">service</span> nginx restart</span><br></pre></td></tr></table></figure>
+        <span itemprop="articleBody"><p>#概述</p>
+<p>Geode是一个提供实时、一致访问大型分布式云平台下数据密集型应用的数据管理平台。最近开源啦！</p>
+<p>Geode 通过跨多进程，把内存、CPU、网络资源和可选的本地磁盘汇集起来，来管理应用程序对象及其行为。它使用动态复制和数据分片技术，来实现高可用性，改善性能、可伸缩性和容错。Geode 除了是一个分布式数据容器，它还是一个内存数据管理系统，提供了可靠的异步事件通知和有保证的消息传递。</p>
+<p>Geode 是一个非常成熟、健壮的产品，它的前身可以追溯到第一个由 Smalltalk 构造的对象数据库：GeoStone。作为一个事务性、低延迟的数据引擎，多个华尔街交易平台首次将 Geode（称为GemFire™）部署在金融部门。如今已有超过 600 家企业用户将 Geode 用于大规模、7*24 业务核心应用程序中。其中一个应用案例就是中国国家铁路将 Geode 用于整个国家的铁路票务系统，10 个节点集群管理着 2TB 的内存热数据，以及 10 个备份节点作为高可用性和弹性扩展。</p>
+<p><img src="http://mmbiz.qpic.cn/mmbiz/DmibiaFiaAI4B2Dw1ibA61L3vXicWbp7Rz8hv3Yaxvtl9phswChRiaDpiajJIYibmtibwX72SA4SwlibvfHVaPic8TA8nGiaXA/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="Alt text"></p>
+<p>#主要概念和组件</p>
+<p>在 Geode 分布式系统中，“缓存”是用来形容一个节点的抽象概念。</p>
+<p>在每个缓存中，由您定义数据区域。数据区域（Data region）类似于关系型数据库的表，并且作为“name/value 对”以分布式方式管理数据。复制区域（replicated region）存储着 {分布式系统中每个缓存成员数据的} 相同副本。分区区域（partitioned region）在缓存成员之间传播数据。系统配置之后，客户端应用 {在不了解底层系统架构的情况下} 也可访问区域中的分布式数据。当数据发生改变的时候，您可以定义监听器来接收通知，并且您也可以定义过期条件，来删除区域中的过期数据。</p>
+<p>定位器（Locator）提供发现服务和负载均衡服务。您可通过定位器服务列表来配置客户端，定位器维护着一个动态成员服务器列表。默认情况下，Geode 客户端和服务器使用40404端口，以及通过使用多播互相通信。</p>
+<p>Geode 包含以下特性：</p>
+<ul>
+<li><p>结合冗余、复制和“非共享”的持久化架构，来实现故障安全可靠性（译者解释：高可用，防止单点故障）和性能。</p>
+</li>
+<li><p>可水平扩展至成千上万个缓存成员，并结合多个缓存拓扑来满足不同的企业需求。该缓存可以分布在多个计算机中。</p>
+</li>
+<li><p>异步和同步缓存更新传播（propagation）。</p>
+</li>
+<li><p>Delta 仅在一个对象（delta）新旧不同版本之间传播，而不是整个对象，从而极大降低了分发成本。</p>
+</li>
+<li><p>可靠的异步事件通知，优化后的、低延迟的分布层保证了消息传递。</p>
+</li>
+<li><p>无需额外的硬件，应用程序即可提速 4~40 倍。</p>
+</li>
+<li><p>数据敏感和实时业务智能。如果在您检索时数据发生更改，您能立即看到数据的变化。</p>
+</li>
+<li><p>与 Spring 框架集成，以加速并简化可扩展的事务型企业应用程序的开发。</p>
+</li>
+<li><p>支持 JTA 事务。</p>
+</li>
+<li><p>整个集群范围的配置，可以持久化，并可导出到其他集群。</p>
+</li>
+<li><p>通过 HTTP 即可实现对集群远程管理。</p>
+</li>
+<li><p>为 REST 应用程序开发提供 REST API 支持。</p>
+</li>
+<li><p>在主版本发布之间滚动升级。</p>
+</li>
+</ul>
+<p>#Geode 5分钟入门</p>
+<p>从 Pivotal 获取源文件，从源文件中提取并构建（注：目前 Geode 支持 jdk1.7.75）：</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>cd geode</span><br><span class="line"><span class="variable">$ </span>./gradlew build installDist</span><br></pre></td></tr></table></figure>
+<p>启动定位器和服务器：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ cd gemfire-assembly/build/<span class="operator"><span class="keyword">install</span>/geode</span><br><span class="line">$ ./<span class="keyword">bin</span>/gfsh</span><br><span class="line">gfsh&gt; <span class="keyword">start</span> <span class="keyword">locator</span> <span class="comment">--name=locator</span></span><br><span class="line">gfsh&gt; <span class="keyword">start</span> <span class="keyword">server</span> <span class="comment">--name=server</span></span></span><br></pre></td></tr></table></figure>
+<p>创建一个区域：</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">gfsh</span>&gt; <span class="comment">create</span> <span class="comment">region</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">name=region</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">type=REPLICATE</span></span><br></pre></td></tr></table></figure>
+<p>编写一个客户端应用程序：</p>
+<p>HelloWorld.java</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">import</span> com.gemstone.gemfire.cache.Region;</span><br><span class="line"><span class="keyword">import</span> com.gemstone.gemfire.cache.client.*;</span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span> </span>&#123;</span><br><span class="line">public static <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) throws Exception &#123;</span><br><span class="line">ClientCache cache = <span class="keyword">new</span> ClientCacheFactory()</span><br><span class="line">.addPoolLocator(<span class="string">"localhost"</span>, <span class="number">10334</span>)</span><br><span class="line">.create();</span><br><span class="line">Region&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; region = cache</span><br><span class="line">.&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt;createClientRegionFactory(ClientRegionShortcut.CACHING_PROXY)</span><br><span class="line">.create(<span class="string">"region"</span>);</span><br><span class="line">region.put(<span class="string">"1"</span>, <span class="string">"Hello"</span>);</span><br><span class="line">region.put(<span class="string">"2"</span>, <span class="string">"World"</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">Map</span>.Entry&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; entry : region.entrySet()) &#123;</span><br><span class="line">System.out.format(<span class="string">"key = %s, value = %sn"</span>, entry.getKey(), entry.getValue());</span><br><span class="line">&#125;</span><br><span class="line">cache.close();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译并运行 HelloWorld.java。classpath 中应包含 gemfire-core-dependencies.jar 包：</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">javac -cp /some/path/geode/gemfire-assembly/build/install/geode/<span class="class"><span class="keyword">lib</span>/<span class="title">gemfire</span>-<span class="title">core</span>-<span class="title">dependencies</span>.<span class="title">jar</span> <span class="title">HelloWorld</span>.<span class="title">java</span></span></span><br><span class="line">java -cp .<span class="symbol">:/some/path/geode/gemfire-assembly/build/install/geode/lib/gemfire-core-dependencies</span>.jar <span class="constant">HelloWorld</span></span><br></pre></td></tr></table></figure>
+<p>应用程序开发</p>
+<p>Geode 应用程序可以用很多种客户端技术实现：</p>
+<p>Java 通过使用 Geode 客户端 API，或者嵌入式使用 Geode API</p>
+<p>Spring Data GemFire或 Spring Cache</p>
+<p>Python（<a href="https://github.com/gemfire/py-gemfire-rest）" target="_blank" rel="external">https://github.com/gemfire/py-gemfire-rest）</a></p>
+<p>REST</p>
+<p>memcached<br>英文出处：Geode<br>译文出处：伯乐在线-Martin<br>译文链接：<a href="http://blog.jobbole.com/87810/" target="_blank" rel="external">http://blog.jobbole.com/87810/</a></p>
 </span>
       
     </div>
@@ -213,11 +267,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/auth/" rel="tag">#auth</a>
-          
-            <a href="/tags/nginx/" rel="tag">#nginx</a>
-          
-            <a href="/tags/ssl/" rel="tag">#ssl</a>
+            <a href="/tags/geode/" rel="tag">#geode</a>
           
         </div>
       
@@ -226,13 +276,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/11/10/Geode数据管理平台/" rel="prev">Geode数据管理平台</a>
+              <a href="/2015/11/10/hello-world/" rel="prev">Hello World</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/08/26/struts2-modelDriven高级应用/" rel="next">struts2-modelDriven高级应用</a>
+              <a href="/2015/10/10/nginx 的 Basic Auth 认证/" rel="next">使用nginx 实现Basic Auth认证</a>
             
           </div>
         </div>
@@ -257,8 +307,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/10/10/nginx 的 Basic Auth 认证/"
-                   data-title="使用nginx 实现Basic Auth认证" data-url="http://boot.ren/2015/10/10/nginx 的 Basic Auth 认证/">
+              <div class="ds-thread" data-thread-key="2015/11/10/Geode数据管理平台/"
+                   data-title="Geode数据管理平台" data-url="http://boot.ren/2015/11/10/Geode数据管理平台/">
               </div>
             
           </div>
@@ -340,7 +390,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#以centos_系统为例:"><span class="nav-number">1.</span> <span class="nav-text">以centos 系统为例:</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
