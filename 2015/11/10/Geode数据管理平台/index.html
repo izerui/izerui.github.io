@@ -39,25 +39,22 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="#概述
-Geode是一个提供实时、一致访问大型分布式云平台下数据密集型应用的数据管理平台。最近开源啦！
+<meta name="description" content="概述Geode是一个提供实时、一致访问大型分布式云平台下数据密集型应用的数据管理平台。最近开源啦！
 Geode 通过跨多进程，把内存、CPU、网络资源和可选的本地磁盘汇集起来，来管理应用程序对象及其行为。它使用动态复制和数据分片技术，来实现高可用性，改善性能、可伸缩性和容错。Geode 除了是一个分布式数据容器，它还是一个内存数据管理系统，提供了可靠的异步事件通知和有保证的消息传递。
-Geod">
+Geode">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Geode数据管理平台">
 <meta property="og:url" content="http://boot.ren/2015/11/10/Geode数据管理平台/index.html">
 <meta property="og:site_name" content="泽睿的自言自语">
-<meta property="og:description" content="#概述
-Geode是一个提供实时、一致访问大型分布式云平台下数据密集型应用的数据管理平台。最近开源啦！
+<meta property="og:description" content="概述Geode是一个提供实时、一致访问大型分布式云平台下数据密集型应用的数据管理平台。最近开源啦！
 Geode 通过跨多进程，把内存、CPU、网络资源和可选的本地磁盘汇集起来，来管理应用程序对象及其行为。它使用动态复制和数据分片技术，来实现高可用性，改善性能、可伸缩性和容错。Geode 除了是一个分布式数据容器，它还是一个内存数据管理系统，提供了可靠的异步事件通知和有保证的消息传递。
-Geod">
-<meta property="og:updated_time" content="2015-11-10T13:52:56.000Z">
+Geode">
+<meta property="og:updated_time" content="2015-11-10T14:07:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Geode数据管理平台">
-<meta name="twitter:description" content="#概述
-Geode是一个提供实时、一致访问大型分布式云平台下数据密集型应用的数据管理平台。最近开源啦！
+<meta name="twitter:description" content="概述Geode是一个提供实时、一致访问大型分布式云平台下数据密集型应用的数据管理平台。最近开源啦！
 Geode 通过跨多进程，把内存、CPU、网络资源和可选的本地磁盘汇集起来，来管理应用程序对象及其行为。它使用动态复制和数据分片技术，来实现高可用性，改善性能、可伸缩性和容错。Geode 除了是一个分布式数据容器，它还是一个内存数据管理系统，提供了可靠的异步事件通知和有保证的消息传递。
-Geod">
+Geode">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -201,12 +198,10 @@ Geod">
       
 
       
-        <span itemprop="articleBody"><p>#概述</p>
-<p>Geode是一个提供实时、一致访问大型分布式云平台下数据密集型应用的数据管理平台。最近开源啦！</p>
+        <span itemprop="articleBody"><h1 id="概述">概述</h1><p>Geode是一个提供实时、一致访问大型分布式云平台下数据密集型应用的数据管理平台。最近开源啦！</p>
 <p>Geode 通过跨多进程，把内存、CPU、网络资源和可选的本地磁盘汇集起来，来管理应用程序对象及其行为。它使用动态复制和数据分片技术，来实现高可用性，改善性能、可伸缩性和容错。Geode 除了是一个分布式数据容器，它还是一个内存数据管理系统，提供了可靠的异步事件通知和有保证的消息传递。</p>
 <p>Geode 是一个非常成熟、健壮的产品，它的前身可以追溯到第一个由 Smalltalk 构造的对象数据库：GeoStone。作为一个事务性、低延迟的数据引擎，多个华尔街交易平台首次将 Geode（称为GemFire™）部署在金融部门。如今已有超过 600 家企业用户将 Geode 用于大规模、7*24 业务核心应用程序中。其中一个应用案例就是中国国家铁路将 Geode 用于整个国家的铁路票务系统，10 个节点集群管理着 2TB 的内存热数据，以及 10 个备份节点作为高可用性和弹性扩展。</p>
-<p>#主要概念和组件</p>
-<p>在 Geode 分布式系统中，“缓存”是用来形容一个节点的抽象概念。</p>
+<h1 id="主要概念和组件">主要概念和组件</h1><p>在 Geode 分布式系统中，“缓存”是用来形容一个节点的抽象概念。</p>
 <p>在每个缓存中，由您定义数据区域。数据区域（Data region）类似于关系型数据库的表，并且作为“name/value 对”以分布式方式管理数据。复制区域（replicated region）存储着 {分布式系统中每个缓存成员数据的} 相同副本。分区区域（partitioned region）在缓存成员之间传播数据。系统配置之后，客户端应用 {在不了解底层系统架构的情况下} 也可访问区域中的分布式数据。当数据发生改变的时候，您可以定义监听器来接收通知，并且您也可以定义过期条件，来删除区域中的过期数据。</p>
 <p>定位器（Locator）提供发现服务和负载均衡服务。您可通过定位器服务列表来配置客户端，定位器维护着一个动态成员服务器列表。默认情况下，Geode 客户端和服务器使用40404端口，以及通过使用多播互相通信。</p>
 <p>Geode 包含以下特性：</p>
@@ -238,8 +233,7 @@ Geod">
 <li><p>在主版本发布之间滚动升级。</p>
 </li>
 </ul>
-<p>#Geode 5分钟入门</p>
-<p>从 Pivotal 获取源文件，从源文件中提取并构建（注：目前 Geode 支持 jdk1.7.75）：</p>
+<h1 id="Geode_5分钟入门">Geode 5分钟入门</h1><p>从 Pivotal 获取源文件，从源文件中提取并构建（注：目前 Geode 支持 jdk1.7.75）：</p>
 <figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>cd geode</span><br><span class="line"><span class="variable">$ </span>./gradlew build installDist</span><br></pre></td></tr></table></figure>
 <p>启动定位器和服务器：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ cd gemfire-assembly/build/<span class="operator"><span class="keyword">install</span>/geode</span><br><span class="line">$ ./<span class="keyword">bin</span>/gfsh</span><br><span class="line">gfsh&gt; <span class="keyword">start</span> <span class="keyword">locator</span> <span class="comment">--name=locator</span></span><br><span class="line">gfsh&gt; <span class="keyword">start</span> <span class="keyword">server</span> <span class="comment">--name=server</span></span></span><br></pre></td></tr></table></figure>
@@ -386,7 +380,7 @@ Geod">
           <div class="post-toc">
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主要概念和组件"><span class="nav-number">2.</span> <span class="nav-text">主要概念和组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Geode_5分钟入门"><span class="nav-number">3.</span> <span class="nav-text">Geode 5分钟入门</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
