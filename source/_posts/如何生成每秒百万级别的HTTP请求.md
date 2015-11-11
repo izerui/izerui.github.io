@@ -70,7 +70,9 @@ httperf --hog --server 192.168.122.10 --num-conn 100000 --ra 20000 --timeout 5
 
 首先，你要安装（Erlang 需要的） EPEL 源。因此，在进行下一步之前要把它安装好。安装完后，继续安装你用来产生负载的每个节点需要的包。如果你还没有在节点之间建立无密码 SSH 密钥（passwordless SSH key），那么请建立之。
 
+```
 yum -y install erlang perl perl-RRD-Simple.noarch perl-Log-Log4perl-RRDs.noarch gnuplot perl-Template-Toolkit firefox
+```
 
 从 Github 或者 Tsung 的官网上下载最新的 Tsung。
 
