@@ -216,7 +216,7 @@
 <p>在这个系列文章的剩余部分，我还会讲解这个工具。现在你可以继续浏览下面的配置说明，或者直接跳到下一页。</p>
 <p>在 CentOS 6.2 上安装 Tsung</p>
 <p>首先，你要安装（Erlang 需要的） EPEL 源。因此，在进行下一步之前要把它安装好。安装完后，继续安装你用来产生负载的每个节点需要的包。如果你还没有在节点之间建立无密码 SSH 密钥（passwordless SSH key），那么请建立之。</p>
-<p>yum -y install erlang perl perl-RRD-Simple.noarch perl-Log-Log4perl-RRDs.noarch gnuplot perl-Template-Toolkit firefox</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install erlang perl perl-RRD-Simple<span class="class">.noarch</span> perl-Log-Log4perl-RRDs<span class="class">.noarch</span> gnuplot perl-Template-Toolkit firefox</span><br></pre></td></tr></table></figure>
 <p>从 Github 或者 Tsung 的官网上下载最新的 Tsung。</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget <span class="string">http:</span><span class="comment">//tsung.erlang-projects.org/dist/tsung-1.4.2.tar.gz</span></span><br></pre></td></tr></table></figure>
 <p>解压并且编译。</p>
