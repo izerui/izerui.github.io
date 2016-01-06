@@ -158,6 +158,188 @@
           
           
             
+              <a class="post-title-link" href="/2016/01/06/Async in Spring/" itemprop="url">
+                Async in Spring
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2016-01-06T09:51:27+08:00" content="2016-01-06">
+            2016-01-06
+          </time>
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2016/01/06/Async in Spring/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/06/Async in Spring/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><h1 id="Async_in_Spring">Async in Spring</h1><h1 id="1-_Overview">1. Overview</h1><p>In this article we’ll explore the asynchronous execution support in Spring – and the @Async annotation.</p>
+<p>Simply put – annotating a method of a bean with @Async will make it execute in a separate thread i.e. the caller will not wait for the completion of the called method.</p>
+<h1 id="2-_Enable_Async_Support">2. Enable Async Support</h1><p>Let’s start by enabling asynchronous processing with Java configuration – by simply adding the @EnableAsync to a configuration class:</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@Configuration</span></span><br><span class="line"><span class="variable">@EnableAsync</span></span><br><span class="line">public class SpringAsyncConfig &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+<p>The enable annotation is enough, but as you’d expect, there are also a few simple options for configuration as well:</p>
+<ul>
+<li>annotation – by default, @EnableAsync detects Spring’s @Async annotation and the EJB 3.1 javax.ejb.Asynchronous; this option can be used to detect other, user defined annotation types as well</li>
+<li>mode – indicates the type of advice that should be used – JDK proxy-based or AspectJ weaving</li>
+<li>proxyTargetClass – indicates the type of proxy that should be used – CGLIB or JDK; this attribute has effect only if the mode is set to AdviceMode.PROXY</li>
+<li>order – sets the order in which AsyncAnnotationBeanPostProcessor should be applied; by default it runs last, just so that it can take into account all existing proxies</li>
+</ul>
+<p>Asynchronous processing can also be enabled using XML configuration – by using the task namespace:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">task:executor</span> <span class="attribute">id</span>=<span class="value">"myexecutor"</span> <span class="attribute">pool-size</span>=<span class="value">"5"</span>  /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">task:annotation-driven</span> <span class="attribute">executor</span>=<span class="value">"myexecutor"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="3-_The_@Async_Annotation">3. The @Async Annotation</h1><p>First – let’s go over the rules – @Async has two limitations:</p>
+<ul>
+<li>it must be applied to public methods only</li>
+<li>self invocation – calling the async method from within the same class – won’t work</li>
+</ul>
+<p>The reasons are simple – the method needs to be public so that it can be proxied. And self-invocation doesn’t work because it bypasses the proxy and calls the underlying method directly.</p>
+<h3 id="3-1-_Methods_with_void_Return_Type">3.1. Methods with void Return Type</h3><p>Following is the simple way to configure a method with void return type to run asynchronously:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="at_rule">@<span class="keyword">Async</span></span><br><span class="line">public void <span class="function">asyncMethodWithVoidReturnType</span>() </span>&#123;</span><br><span class="line">    <span class="tag">System</span><span class="class">.out</span><span class="class">.println</span>("<span class="tag">Execute</span> <span class="tag">method</span> <span class="tag">asynchronously</span>. "</span><br><span class="line">      + <span class="tag">Thread</span><span class="class">.currentThread</span>()<span class="class">.getName</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-_Methods_With_Return_Type">3.2. Methods With Return Type</h3><p>@Async can also be applied to a method with return type – by wrapping the actual return in a Future:</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@Async</span><br><span class="line"><span class="keyword">public</span> Future&lt;<span class="keyword">String</span>&gt; asyncMethodWithReturnType() &#123;</span><br><span class="line">    System.out.<span class="built_in">println</span>(<span class="string">"Execute method asynchronously - "</span></span><br><span class="line">      + Thread.currentThread().getName());</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> AsyncResult&lt;<span class="keyword">String</span>&gt;(<span class="string">"hello world !!!!"</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Spring also provides a AsyncResult class which implements Future. This can be used to track the result of asynchronous method execution.</p>
+<p>Now, let’s invoke the above method and retrieve the result of the asynchronous process using the Future object.</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> testAsyncAnnotationForMethodsWithReturnType()</span><br><span class="line">    <span class="keyword">throws</span> InterruptedException, ExecutionException &#123;</span><br><span class="line">    System.out.<span class="built_in">println</span>(<span class="string">"Invoking an asynchronous method. "</span></span><br><span class="line">      + Thread.currentThread().getName());</span><br><span class="line">    Future&lt;<span class="keyword">String</span>&gt; future = asyncAnnotationExample.asyncMethodWithReturnType();</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (future.isDone()) &#123;</span><br><span class="line">            System.out.<span class="built_in">println</span>(<span class="string">"Result from asynchronous process - "</span> + future.<span class="built_in">get</span>());</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.<span class="built_in">println</span>(<span class="string">"Continue doing something else. "</span>);</span><br><span class="line">        Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="4-_The_Executor">4. The Executor</h1><p>By default Spring uses a SimpleAsyncTaskExecutor to actually run these methods asynchronously. The defaults can be overridden at two levels – at the application level or at the individual method level.</p>
+<h3 id="4-1-_Override_the_Executor_at_the_Method_Level">4.1. Override the Executor at the Method Level</h3><p>The required executor needs to be declared in a configuration class:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Configuration</span></span><br><span class="line"><span class="annotation">@EnableAsync</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringAsyncConfig</span> </span>&#123;</span><br><span class="line">     </span><br><span class="line">    <span class="annotation">@Bean</span>(name = <span class="string">"threadPoolTaskExecutor"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Executor <span class="title">threadPoolTaskExecutor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolTaskExecutor();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Then the executor name should be provided as an attribute in @Async:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="at_rule">@<span class="keyword">Async("threadPoolTaskExecutor")</span></span><br><span class="line">public void <span class="function">asyncMethodWithConfiguredExecutor</span>() </span>&#123;</span><br><span class="line">    <span class="tag">System</span><span class="class">.out</span><span class="class">.println</span>("<span class="tag">Execute</span> <span class="tag">method</span> <span class="tag">with</span> <span class="tag">configured</span> <span class="tag">executor</span> <span class="tag">-</span> "</span><br><span class="line">      + <span class="tag">Thread</span><span class="class">.currentThread</span>()<span class="class">.getName</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-2-_Override_the_Executor_at_the_Application_Level">4.2. Override the Executor at the Application Level</h3><p>The configuration class should implement the AsyncConfigurer interface – which will mean that it has the implement the getAsyncExecutor() method. It’s here that we will return the executor for the entire application – this now becomes the default executor to run methods annotated with @Async:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Configuration</span></span><br><span class="line"><span class="annotation">@EnableAsync</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringAsyncConfig</span> <span class="keyword">implements</span> <span class="title">AsyncConfigurer</span> </span>&#123;</span><br><span class="line">     </span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Executor <span class="title">getAsyncExecutor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolTaskExecutor();</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="5-_Exception_Handling">5. Exception Handling</h1><p>When a method return type is a Future, exception handling is easy – Future.get() method will throw the exception.</p>
+<p>But, if the return type is void, exceptions will not be propagated to the calling thread. Hence we need to add extra configurations to handle exceptions.</p>
+<p>We’ll create a custom async exception handler by implementing AsyncUncaughtExceptionHandler interface. The handleUncaughtException() method is invoked when there are any uncaught asynchronous exceptions:</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class <span class="type">CustomAsyncExceptionHandler</span>  implements <span class="type">AsyncUncaughtExceptionHandler</span> &#123;</span><br><span class="line"> </span><br><span class="line">    @<span class="type">Override</span></span><br><span class="line">    public <span class="type">void</span> handleUncaughtException(<span class="type">Throwable</span> throwable, <span class="type">Method</span> <span class="keyword">method</span>, <span class="type">Object</span>... obj) &#123;</span><br><span class="line">        <span class="type">System</span>.<span class="keyword">out</span>.println(<span class="string">"Exception message - "</span> + throwable.getMessage());</span><br><span class="line">        <span class="type">System</span>.<span class="keyword">out</span>.println(<span class="string">"Method name - "</span> + <span class="keyword">method</span>.getName());</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">Object</span> param : obj) &#123;</span><br><span class="line">            <span class="type">System</span>.<span class="keyword">out</span>.println(<span class="string">"Parameter value - "</span> + param);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In the previous section we looked at the AsyncConfigurer interface implemented by the configuration class. As part of that, we also need to override the getAsyncUncaughtExceptionHandler() method to return our custom asynchronous exception handler:</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="function">AsyncUncaughtExceptionHandler <span class="title">getAsyncUncaughtExceptionHandler</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> CustomAsyncExceptionHandler();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="6-_Conclusion">6. Conclusion</h1><p>In this tutorial we looked at running asynchronous code with Spring. We started with the very basic configuration and annotation to make it work but also looked at more advanced configs such as providing our own executor, or exception handling strategies.</p>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              <a class="post-title-link" href="/2015/11/20/Kafka架构和原理深度剖析/" itemprop="url">
+                Kafka架构和原理深度剖析
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-11-20T13:56:30+08:00" content="2015-11-20">
+            2015-11-20
+          </time>
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2015/11/20/Kafka架构和原理深度剖析/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/20/Kafka架构和原理深度剖析/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><h1 id="背景介绍">背景介绍</h1><h3 id="Kafka简介">Kafka简介</h3><pre><code>Kafka是一种分布式的，基于发布/订阅的消息系统。主要设计目标如下：
+
+<span class="keyword">*</span>以时间复杂度为O(1)的方式提供消息持久化能力，并保证即使对TB级以上数据也能保证常数时间的访问性能
+<span class="keyword">*</span>高吞吐率。即使在非常廉价的商用机器上也能做到单机支持每秒100K条消息的传输
+<span class="keyword">*</span>支持Kafka Server间的消息分区，及分布式消息消费，同时保证每个partition内的消息顺序传输
+<span class="keyword">*</span>同时支持离线数据处理和实时数据处理
+</code></pre></span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2015/11/10/如何生成每秒百万级别的HTTP请求/" itemprop="url">
                 如何生成每秒百万级别的HTTP请求
               </a>
@@ -1042,163 +1224,6 @@ management.context-path=/management
 
 
     
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/04/07/zookeeper 数据浏览器/" itemprop="url">
-                zookeeper 数据浏览器
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-04-07T22:20:57+08:00" content="2015-04-07">
-            2015-04-07
-          </time>
-        </span>
-
-        
-
-        
-          
-            <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/2015/04/07/zookeeper 数据浏览器/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/07/zookeeper 数据浏览器/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody"><p>又是一个清明小长假，一个人远在深圳也没有回家，闲来无事写了一个zookeeper的数据浏览器。<br>上图：</p>
-<p> <img src="https://raw.githubusercontent.com/izerui/zookeeper-explorer/master/src/main/resources/public/assets/img/sample.png"></p>
-<p>使用上的技术：</p>
-<ol>
-<li>spring boot </li>
-<li>flex</li>
-<li>zookeeper curator client</li>
-<li>shiro security</li>
-<li>fastxml jackson </li>
-<li>spring mvc restful</li>
-</ol>
-<p>基于spring boot微服务做的一个应用，以 独立jar包发布，内嵌了tomcat容器。因为一直也没有找到合适的可以方便管理和查看 zookeeper 数据的一个东东。就自己做了一个，方便公司的zk管理。</p>
-<p>有兴趣的。或者也有同样需求的可以down下来玩玩。 东西虽小五张俱全。操作权限该有的都有。</p>
-<p>项目地址： <a href="https://github.com/izerui/zookeeper-explorer" target="_blank" rel="external">https://github.com/izerui/zookeeper-explorer</a></p>
-</span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2013/11/25/ObjectHandles2-升级版-增加鼠标样式-拖动样式/" itemprop="url">
-                ObjectHandles2 升级版, 增加鼠标样式,拖动样式
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2013-11-25T22:26:56+08:00" content="2013-11-25">
-            2013-11-25
-          </time>
-        </span>
-
-        
-
-        
-          
-            <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/2013/11/25/ObjectHandles2-升级版-增加鼠标样式-拖动样式/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2013/11/25/ObjectHandles2-升级版-增加鼠标样式-拖动样式/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <span itemprop="articleBody"><p>效果如图:</p>
-<p><img src="http://dl2.iteye.com/upload/attachment/0091/5355/63135695-596a-3162-b4db-7267a77248c5.png"></p>
-<p><img src="http://dl2.iteye.com/upload/attachment/0091/5357/7841d234-7ae5-317a-874d-328b7b721563.png"></p>
-<h3 id="ObjectHandles2-swc_由flex_sdk_3-5_编译">ObjectHandles2.swc  由flex sdk 3.5 编译</h3><p>官方源码+修改后的源码. </p>
-<p>请移步: </p>
-<p> <a href="https://github.com/izerui/ObjectHandles" target="_blank" rel="external">https://github.com/izerui/ObjectHandles</a></p>
-<p> <a href="/files/ObjectHandles2.rar">ObjectHandles2.rar</a></p>
-</span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1237,7 +1262,7 @@ management.context-path=/management
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1251,7 +1276,7 @@ management.context-path=/management
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-count">27</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -1285,7 +1310,7 @@ management.context-path=/management
       <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp; 
-  <span itemprop="copyrightYear">2015</span>
+  <span itemprop="copyrightYear">2016</span>
   <span class="with-love">
     <i class="icon-next-heart"></i>
   </span>
