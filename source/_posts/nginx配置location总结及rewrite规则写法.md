@@ -1,5 +1,5 @@
 layout: nginx配置location总结及rewrite规则写法
-title: xi
+title: nginx配置location总结及rewrite规则写法
 date: 2016-01-20 13:20:49
 tags: [nginx,location,rewrite,转发]
 ---
