@@ -158,6 +158,159 @@
           
           
             
+              <a class="post-title-link" href="/2015/08/26/spring-boot监控/" itemprop="url">
+                spring-boot监控
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-08-26T21:28:04+08:00" content="2015-08-26">
+            2015-08-26
+          </time>
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2015/08/26/spring-boot监控/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/26/spring-boot监控/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><h1 id="spring-boot-actuator-monitor">spring-boot-actuator-monitor</h1><p>基于spring boot的 监控平台</p>
+<p>#spring-boot-admin 监控后台</p>
+<ol>
+<li><p>新建一个maven工程 boot-admin ， 继承 spring-boot-starter-parent</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">parent</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.2.4.RELEASE<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="title">parent</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>加入依赖</p>
+</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>de.codecentric<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-admin-server<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.2.1<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>de.codecentric<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-admin-server-ui<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.2.1<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-security<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>com.googlecode.json-simple<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>json-simple<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">optional</span>&gt;</span>false<span class="tag">&lt;/<span class="title">optional</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>加入plugin 以 exec jar包运行</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">plugin</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;<span class="title">executions</span>&gt;</span></span><br><span class="line">                 <span class="tag">&lt;<span class="title">execution</span>&gt;</span></span><br><span class="line">                     <span class="tag">&lt;<span class="title">goals</span>&gt;</span></span><br><span class="line">                         <span class="tag">&lt;<span class="title">goal</span>&gt;</span>repackage<span class="tag">&lt;/<span class="title">goal</span>&gt;</span></span><br><span class="line">                     <span class="tag">&lt;/<span class="title">goals</span>&gt;</span></span><br><span class="line">                     <span class="tag">&lt;<span class="title">configuration</span>&gt;</span></span><br><span class="line">                         <span class="tag">&lt;<span class="title">classifier</span>&gt;</span>exec<span class="tag">&lt;/<span class="title">classifier</span>&gt;</span></span><br><span class="line">                     <span class="tag">&lt;/<span class="title">configuration</span>&gt;</span></span><br><span class="line">                 <span class="tag">&lt;/<span class="title">execution</span>&gt;</span></span><br><span class="line">             <span class="tag">&lt;/<span class="title">executions</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;/<span class="title">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建执行执行类   com.izerui.boot.admin.Application.java</p>
+</li>
+</ol>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@SpringBootApplication</span></span><br><span class="line"><span class="annotation">@EnableAdminServer</span></span><br><span class="line"><span class="annotation">@EnableDiscoveryClient</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Application</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="typename">void</span> main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(Application.<span class="keyword">class</span>,args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>声明监控后台的应用名称、端口、上下文、基本授权验证用户名、密码等信息  application.properties</li>
+</ol>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># application</span></span><br><span class="line">server.<span class="keyword">port</span> = <span class="number">8888</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># basic security</span></span><br><span class="line">security.ignored=/api/**</span><br><span class="line">security.<span class="keyword">user</span>.name=boot</span><br><span class="line">security.<span class="keyword">user</span>.password=boot1234</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>mvn install 后 执行 java -jar boot-admin-exec.jar</p>
+</li>
+<li><p>访问 <a href="http://主机ID:端口/boot-admin" target="_blank" rel="external">http://主机ID:端口/boot-admin</a></p>
+</li>
+</ol>
+<hr>
+<h1 id="注册应用到监控后台">注册应用到监控后台</h1><ol>
+<li><p>确保应用继承 spring-boot-starter-parent</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">parent</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.2.4.RELEASE<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="title">parent</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>引入依赖</p>
+</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>de.codecentric<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-boot-admin-starter-client<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.2.1<span class="tag">&lt;/<span class="title">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="title">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>com.googlecode.json-simple<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>json-simple<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="title">optional</span>&gt;</span>false<span class="tag">&lt;/<span class="title">optional</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="title">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>配置被监控的应用的名称和监控后台地址 application.properties</p>
+<blockquote>
+<p>jar 方式运行</p>
+</blockquote>
+<h1 id="web_application">web application</h1><p>   server.port=28584<br>   info.version=@pom.version@<br>   info.info=微信代理服务<br>   management.context-path=/management<br>   server.context-path=/@pom.artifactId@<br>   endpoints.jmx.domain=@pom.artifactId@<br>   spring.application.name=@pom.artifactId@</p>
+<h1 id="boot_admin">boot admin</h1><p>   spring.boot.admin.url=<a href="http://192.168.1.128:8888/boot-admin" target="_blank" rel="external">http://192.168.1.128:8888/boot-admin</a></p>
+<hr>
+<blockquote>
+<p>war 方式运行</p>
+</blockquote>
+<h1 id="web_application-1">web application</h1><p>   info.version=@pom.version@<br>   info.info=阿里支付服务<br>   management.context-path=/management<br>   endpoints.jmx.domain=@pom.artifactId@<br>   spring.application.name=@pom.artifactId@</p>
+<h1 id="boot_admin-1">boot admin</h1><p>   spring.boot.admin.url=<a href="http://192.168.1.128:8888" target="_blank" rel="external">http://192.168.1.128:8888</a><br>   spring.boot.admin.client.service-url=<a href="http://192.168.1.106:8098/qq-pay-web" target="_blank" rel="external">http://192.168.1.106:8098/qq-pay-web</a></p>
+</li>
+</ol>
+<pre><code>注意： 别忘了添加logging配置
+<span class="comment"># LOGGING</span>
+logging.<span class="type">file</span>=/tmp/logs/offline-proxy-tcp.<span class="command">log</span>
+
+注意： 有些应用被权限框架拦截了。故需要加入 
+management.context-path=/management 
+并在权限框架内 将 /management/** = anon 权限放开，声明url注意上下文。
+</code></pre><ol>
+<li><p>配置logback的jmx接口调用</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;<span class="keyword">include</span> resource=<span class="string">"org/springframework/boot/logging/logback/base.xml"</span>/&gt;</span><br><span class="line">    &lt;jmxConfigurator/&gt;</span><br><span class="line">    &lt;logger name=<span class="string">"com.izerui"</span> level=<span class="string">"DEBUG"</span>/&gt;</span><br><span class="line">    &lt;root level=<span class="string">"INFO"</span>&gt;</span><br><span class="line">        &lt;appender-<span class="keyword">ref</span> <span class="keyword">ref</span>=<span class="string">"CONSOLE"</span> /&gt;</span><br><span class="line">        &lt;appender-<span class="keyword">ref</span> <span class="keyword">ref</span>=<span class="string">"FILE"</span> /&gt;</span><br><span class="line">    &lt;/root&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>发布自定义jmx接口</p>
+</li>
+</ol>
+<pre><code>在spring bean 类的头信息上增加注解 @<span class="function"><span class="title">ManagedResource</span><span class="params">(currencyTimeLimit = <span class="number">20</span>)</span></span> 和 @Lazy
+
+声明属性： @<span class="function"><span class="title">ManagedAttribute</span><span class="params">(description = <span class="string">"当前TCP连接数"</span>)</span></span>
+
+声明方法： @<span class="function"><span class="title">ManagedOperation</span><span class="params">(description = <span class="string">"关闭对应IP的所有连接"</span>)</span></span>
+          @ManagedOperationParameters(
+            @<span class="function"><span class="title">ManagedOperationParameter</span><span class="params">(name = <span class="string">"ip"</span>, description = <span class="string">"终端IP"</span>)</span></span>
+          )
+</code></pre><p>参考资料：</p>
+<ul>
+<li><p><a href="https://github.com/codecentric/spring-boot-admin.git" target="_blank" rel="external">https://github.com/codecentric/spring-boot-admin.git</a></p>
+</li>
+<li><p><a href="http://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-jmx.html" target="_blank" rel="external">http://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-jmx.html</a></p>
+</li>
+<li><p><a href="https://github.com/spring-projects/spring-boot/tree/master/spring-boot-actuator" target="_blank" rel="external">https://github.com/spring-projects/spring-boot/tree/master/spring-boot-actuator</a></p>
+</li>
+<li><p><a href="http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#_auto_configured_healthindicators" target="_blank" rel="external">http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#_auto_configured_healthindicators</a></p>
+</li>
+</ul>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2015/08/26/基于redis的cas ticket共享/" itemprop="url">
                 基于redis的cas ticket共享
               </a>
@@ -725,7 +878,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">16</span>
+              <span class="site-state-item-count">17</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -739,7 +892,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">34</span>
+              <span class="site-state-item-count">37</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
