@@ -2,7 +2,6 @@ title: centos6 mongodb 3.0.x 升级到 3.2.5 (并迁移数据)
 date: 2016-04-28 13:59:28
 tags: [mongodb,3.2.5]
 ---------------------
-# centos6 mongodb 3.0.x 升级到 3.2.5 (并迁移数据)
 
 ## 安装mongodb
 
