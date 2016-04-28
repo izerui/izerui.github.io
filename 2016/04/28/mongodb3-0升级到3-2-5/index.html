@@ -39,28 +39,28 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="centos6 mongodb 3.0.x 升级到 3.2.5 (并迁移数据)安装mongodb
+<meta name="description" content="安装mongodb
 创建yum repo文件 /etc/yum.repos.d/mongodb-org-3.2.repo ,这样可以使用yum命令安装mongodb了.
 
 文件内容:
-123456[mongodb-org-3.2]name=MongoDB Repositorybaseurl=https://repo.mo">
+123456[mongodb-org-3.2]name=MongoDB Repositorybaseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongod">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mongodb3.0升级到3.2.5">
+<meta property="og:title" content="centos6 mongodb 3.0.x 升级到 3.2.5 (并迁移数据)">
 <meta property="og:url" content="http://boot.ren/2016/04/28/mongodb3-0升级到3-2-5/index.html">
 <meta property="og:site_name" content="泽睿的自言自语">
-<meta property="og:description" content="centos6 mongodb 3.0.x 升级到 3.2.5 (并迁移数据)安装mongodb
+<meta property="og:description" content="安装mongodb
 创建yum repo文件 /etc/yum.repos.d/mongodb-org-3.2.repo ,这样可以使用yum命令安装mongodb了.
 
 文件内容:
-123456[mongodb-org-3.2]name=MongoDB Repositorybaseurl=https://repo.mo">
-<meta property="og:updated_time" content="2016-04-28T06:46:40.000Z">
+123456[mongodb-org-3.2]name=MongoDB Repositorybaseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongod">
+<meta property="og:updated_time" content="2016-04-28T06:48:47.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mongodb3.0升级到3.2.5">
-<meta name="twitter:description" content="centos6 mongodb 3.0.x 升级到 3.2.5 (并迁移数据)安装mongodb
+<meta name="twitter:title" content="centos6 mongodb 3.0.x 升级到 3.2.5 (并迁移数据)">
+<meta name="twitter:description" content="安装mongodb
 创建yum repo文件 /etc/yum.repos.d/mongodb-org-3.2.repo ,这样可以使用yum命令安装mongodb了.
 
 文件内容:
-123456[mongodb-org-3.2]name=MongoDB Repositorybaseurl=https://repo.mo">
+123456[mongodb-org-3.2]name=MongoDB Repositorybaseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongod">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -70,7 +70,7 @@
   };
 </script>
 
-  <title> mongodb3.0升级到3.2.5 | 泽睿的自言自语 </title>
+  <title> centos6 mongodb 3.0.x 升级到 3.2.5 (并迁移数据) | 泽睿的自言自语 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -169,7 +169,7 @@
           
           
             
-              mongodb3.0升级到3.2.5
+              centos6 mongodb 3.0.x 升级到 3.2.5 (并迁移数据)
             
           
         </h1>
@@ -204,7 +204,7 @@
       
 
       
-        <span itemprop="articleBody"><h1 id="centos6_mongodb_3-0-x_升级到_3-2-5_(并迁移数据)">centos6 mongodb 3.0.x 升级到 3.2.5 (并迁移数据)</h1><h2 id="安装mongodb">安装mongodb</h2><ul>
+        <span itemprop="articleBody"><h2 id="安装mongodb">安装mongodb</h2><ul>
 <li>创建yum repo文件 <strong>/etc/yum.repos.d/mongodb-org-3.2.repo</strong> ,这样可以使用yum命令安装mongodb了.</li>
 </ul>
 <p>文件内容:</p>
@@ -280,7 +280,7 @@
           <div class="comments" id="comments">
             
               <div class="ds-thread" data-thread-key="2016/04/28/mongodb3-0升级到3-2-5/"
-                   data-title="mongodb3.0升级到3.2.5" data-url="http://boot.ren/2016/04/28/mongodb3-0升级到3-2-5/">
+                   data-title="centos6 mongodb 3.0.x 升级到 3.2.5 (并迁移数据)" data-url="http://boot.ren/2016/04/28/mongodb3-0升级到3-2-5/">
               </div>
             
           </div>
@@ -362,7 +362,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#centos6_mongodb_3-0-x_升级到_3-2-5_(并迁移数据)"><span class="nav-number">1.</span> <span class="nav-text">centos6 mongodb 3.0.x 升级到 3.2.5 (并迁移数据)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装mongodb"><span class="nav-number">1.1.</span> <span class="nav-text">安装mongodb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置mongodb"><span class="nav-number">1.2.</span> <span class="nav-text">配置mongodb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迁移旧的db,并导入到新建的mongodb中"><span class="nav-number">1.3.</span> <span class="nav-text">迁移旧的db,并导入到新建的mongodb中</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#备份数据库:"><span class="nav-number">1.3.1.</span> <span class="nav-text">备份数据库:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导入数据库:"><span class="nav-number">1.3.2.</span> <span class="nav-text">导入数据库:</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装mongodb"><span class="nav-number">1.</span> <span class="nav-text">安装mongodb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置mongodb"><span class="nav-number">2.</span> <span class="nav-text">配置mongodb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迁移旧的db,并导入到新建的mongodb中"><span class="nav-number">3.</span> <span class="nav-text">迁移旧的db,并导入到新建的mongodb中</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#备份数据库:"><span class="nav-number">3.1.</span> <span class="nav-text">备份数据库:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导入数据库:"><span class="nav-number">3.2.</span> <span class="nav-text">导入数据库:</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
