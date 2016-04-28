@@ -53,7 +53,7 @@
 
 文件内容:
 123456[mongodb-org-3.2]name=MongoDB Repositorybaseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongod">
-<meta property="og:updated_time" content="2016-04-28T06:48:47.000Z">
+<meta property="og:updated_time" content="2016-04-28T09:11:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="centos6 mongodb 3.0.x 升级到 3.2.5 (并迁移数据)">
 <meta name="twitter:description" content="安装mongodb
@@ -227,10 +227,10 @@
 </ul>
 <p>好了, 可以启动mongodb服务了.</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service mongod start</span><br></pre></td></tr></table></figure>
-<h2 id="迁移旧的db,并导入到新建的mongodb中">迁移旧的db,并导入到新建的mongodb中</h2><h3 id="备份数据库:">备份数据库:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodump -h <span class="number">127.0</span>.0.1 -d &#123;数据库名&#125; -o &#123;要保存的目录&#125;</span><br></pre></td></tr></table></figure>
-<p>例如:<br>mongodump -h 127.0.0.1 -d ddc -o /mnt/wwwroot/ddc.dmp</p>
-<h3 id="导入数据库:">导入数据库:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongorestore -h <span class="number">127.0</span>.0.1 -d &#123;数据库名&#125; &#123;备份的数据库目录&#125;</span><br></pre></td></tr></table></figure>
-<p>例如:<br>mongorestore -h 127.0.0.1 -d ddc /mnt/wwwroot/ddc.dmp/ddc</p>
+<h2 id="迁移旧的db,并导入到新建的mongodb中">迁移旧的db,并导入到新建的mongodb中</h2><h3 id="备份数据库:">备份数据库:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodump -d &#123;数据库名&#125; -o &#123;要保存的目录&#125;</span><br></pre></td></tr></table></figure>
+<p>例如:<br>mongodump -d ddc -o /mnt/wwwroot/ddc.dmp</p>
+<h3 id="导入数据库:">导入数据库:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongorestore -d &#123;数据库名&#125; &#123;备份的数据库目录&#125;</span><br></pre></td></tr></table></figure>
+<p>例如:<br>mongorestore -d ddc /mnt/wwwroot/ddc.dmp/ddc</p>
 </span>
       
     </div>
