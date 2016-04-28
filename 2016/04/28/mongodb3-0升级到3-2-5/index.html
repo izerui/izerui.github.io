@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="android,android-cn," />
+  <meta name="keywords" content="3.2.5,mongodb," />
 
 
 
@@ -39,19 +39,28 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="android-cngithub： https://github.com/android-cn
-网站： http://www.codekk.com">
+<meta name="description" content="centos6 mongodb 3.0.x 升级到 3.2.5 (并迁移数据)安装mongodb
+创建yum repo文件 /etc/yum.repos.d/mongodb-org-3.2.repo ,这样可以使用yum命令安装mongodb了.
+
+文件内容:
+123456[mongodb-org-3.2]name=MongoDB Repositorybaseurl=https://repo.mo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="推荐一个很不错的学习android的圈子">
-<meta property="og:url" content="http://boot.ren/2015/08/26/推荐一个很不错的学习android的圈子/index.html">
+<meta property="og:title" content="mongodb3.0升级到3.2.5">
+<meta property="og:url" content="http://boot.ren/2016/04/28/mongodb3-0升级到3-2-5/index.html">
 <meta property="og:site_name" content="泽睿的自言自语">
-<meta property="og:description" content="android-cngithub： https://github.com/android-cn
-网站： http://www.codekk.com">
-<meta property="og:updated_time" content="2015-10-10T07:55:06.000Z">
+<meta property="og:description" content="centos6 mongodb 3.0.x 升级到 3.2.5 (并迁移数据)安装mongodb
+创建yum repo文件 /etc/yum.repos.d/mongodb-org-3.2.repo ,这样可以使用yum命令安装mongodb了.
+
+文件内容:
+123456[mongodb-org-3.2]name=MongoDB Repositorybaseurl=https://repo.mo">
+<meta property="og:updated_time" content="2016-04-28T06:46:40.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="推荐一个很不错的学习android的圈子">
-<meta name="twitter:description" content="android-cngithub： https://github.com/android-cn
-网站： http://www.codekk.com">
+<meta name="twitter:title" content="mongodb3.0升级到3.2.5">
+<meta name="twitter:description" content="centos6 mongodb 3.0.x 升级到 3.2.5 (并迁移数据)安装mongodb
+创建yum repo文件 /etc/yum.repos.d/mongodb-org-3.2.repo ,这样可以使用yum命令安装mongodb了.
+
+文件内容:
+123456[mongodb-org-3.2]name=MongoDB Repositorybaseurl=https://repo.mo">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -61,7 +70,7 @@
   };
 </script>
 
-  <title> 推荐一个很不错的学习android的圈子 | 泽睿的自言自语 </title>
+  <title> mongodb3.0升级到3.2.5 | 泽睿的自言自语 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -160,7 +169,7 @@
           
           
             
-              推荐一个很不错的学习android的圈子
+              mongodb3.0升级到3.2.5
             
           
         </h1>
@@ -169,8 +178,8 @@
       <div class="post-meta">
         <span class="post-time">
           发表于
-          <time itemprop="dateCreated" datetime="2015-08-26T21:11:38+08:00" content="2015-08-26">
-            2015-08-26
+          <time itemprop="dateCreated" datetime="2016-04-28T13:59:28+08:00" content="2016-04-28">
+            2016-04-28
           </time>
         </span>
 
@@ -180,8 +189,8 @@
           
             <span class="post-comments-count">
               &nbsp; | &nbsp;
-              <a href="/2015/08/26/推荐一个很不错的学习android的圈子/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/26/推荐一个很不错的学习android的圈子/" itemprop="commentsCount"></span>
+              <a href="/2016/04/28/mongodb3-0升级到3-2-5/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/28/mongodb3-0升级到3-2-5/" itemprop="commentsCount"></span>
               </a>
             </span>
           
@@ -195,8 +204,33 @@
       
 
       
-        <span itemprop="articleBody"><h1 id="android-cn">android-cn</h1><p>github： <a href="https://github.com/android-cn" target="_blank" rel="external">https://github.com/android-cn</a></p>
-<p>网站： <a href="http://www.codekk.com" target="_blank" rel="external">http://www.codekk.com</a></p>
+        <span itemprop="articleBody"><h1 id="centos6_mongodb_3-0-x_升级到_3-2-5_(并迁移数据)">centos6 mongodb 3.0.x 升级到 3.2.5 (并迁移数据)</h1><h2 id="安装mongodb">安装mongodb</h2><ul>
+<li>创建yum repo文件 <strong>/etc/yum.repos.d/mongodb-org-3.2.repo</strong> ,这样可以使用yum命令安装mongodb了.</li>
+</ul>
+<p>文件内容:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[mongodb-org-<span class="number">3.2</span>]</span><br><span class="line">name=MongoDB Repository</span><br><span class="line">baseurl=https:<span class="comment">//repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.2/x86_64/</span></span><br><span class="line">gpgcheck=<span class="number">1</span></span><br><span class="line">enabled=<span class="number">1</span></span><br><span class="line">gpgkey=https:<span class="comment">//www.mongodb.org/static/pgp/server-3.2.asc</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>执行安装命令</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install -y mongodb-org</span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动mongodb </li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service mongod start</span><br></pre></td></tr></table></figure>
+<h2 id="配置mongodb">配置mongodb</h2><p>在启动mongodb之前可以配置下mongodb的db path 等.</p>
+<p>创建一个目录用来保存log 和db 文件 ,这里以 /www/mongodb/ 为例</p>
+<p>注意: 要赋予该目录相应的权限<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R mongod.mongod /www/mongodb</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>关闭只能localhost连接: 注释掉 bindIp 那一行</li>
+<li>修改log路径: 修改 systemLog下的path 值改为: /www/mongodb/logs/mongod.log</li>
+<li>修改 storage下的 dbPath 值改为: /www/mongodb/db</li>
+</ul>
+<p>好了, 可以启动mongodb服务了.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service mongod start</span><br></pre></td></tr></table></figure>
+<h2 id="迁移旧的db,并导入到新建的mongodb中">迁移旧的db,并导入到新建的mongodb中</h2><h3 id="备份数据库:">备份数据库:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodump -h <span class="number">127.0</span>.0.1 -d &#123;数据库名&#125; -o &#123;要保存的目录&#125;</span><br></pre></td></tr></table></figure>
+<p>例如:<br>mongodump -h 127.0.0.1 -d ddc -o /mnt/wwwroot/ddc.dmp</p>
+<h3 id="导入数据库:">导入数据库:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongorestore -h <span class="number">127.0</span>.0.1 -d &#123;数据库名&#125; &#123;备份的数据库目录&#125;</span><br></pre></td></tr></table></figure>
+<p>例如:<br>mongorestore -h 127.0.0.1 -d ddc /mnt/wwwroot/ddc.dmp/ddc</p>
 </span>
       
     </div>
@@ -205,9 +239,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/android/" rel="tag">#android</a>
+            <a href="/tags/3-2-5/" rel="tag">#3.2.5</a>
           
-            <a href="/tags/android-cn/" rel="tag">#android-cn</a>
+            <a href="/tags/mongodb/" rel="tag">#mongodb</a>
           
         </div>
       
@@ -216,13 +250,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/08/26/基于redis的cas ticket共享/" rel="prev">基于redis的cas ticket共享</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/08/26/使用redis配置tomcat共享session/" rel="next">使用redis配置tomcat共享session</a>
+              <a href="/2016/03/18/MySQL索引原理及慢查询优化/" rel="next">MySQL索引原理及慢查询优化</a>
             
           </div>
         </div>
@@ -247,8 +279,8 @@
         
           <div class="comments" id="comments">
             
-              <div class="ds-thread" data-thread-key="2015/08/26/推荐一个很不错的学习android的圈子/"
-                   data-title="推荐一个很不错的学习android的圈子" data-url="http://boot.ren/2015/08/26/推荐一个很不错的学习android的圈子/">
+              <div class="ds-thread" data-thread-key="2016/04/28/mongodb3-0升级到3-2-5/"
+                   data-title="mongodb3.0升级到3.2.5" data-url="http://boot.ren/2016/04/28/mongodb3-0升级到3-2-5/">
               </div>
             
           </div>
@@ -330,7 +362,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#android-cn"><span class="nav-number">1.</span> <span class="nav-text">android-cn</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#centos6_mongodb_3-0-x_升级到_3-2-5_(并迁移数据)"><span class="nav-number">1.</span> <span class="nav-text">centos6 mongodb 3.0.x 升级到 3.2.5 (并迁移数据)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装mongodb"><span class="nav-number">1.1.</span> <span class="nav-text">安装mongodb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置mongodb"><span class="nav-number">1.2.</span> <span class="nav-text">配置mongodb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迁移旧的db,并导入到新建的mongodb中"><span class="nav-number">1.3.</span> <span class="nav-text">迁移旧的db,并导入到新建的mongodb中</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#备份数据库:"><span class="nav-number">1.3.1.</span> <span class="nav-text">备份数据库:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导入数据库:"><span class="nav-number">1.3.2.</span> <span class="nav-text">导入数据库:</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

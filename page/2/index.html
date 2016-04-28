@@ -158,6 +158,124 @@
           
           
             
+              <a class="post-title-link" href="/2015/08/26/struts2-modelDriven高级应用/" itemprop="url">
+                struts2-modelDriven高级应用
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2015-08-26T21:33:59+08:00" content="2015-08-26">
+            2015-08-26
+          </time>
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2015/08/26/struts2-modelDriven高级应用/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/26/struts2-modelDriven高级应用/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <span itemprop="articleBody"><p>struts2 modelDriven 高级应用</p>
+<p><a href="https://travis-ci.org/izerui/struts2-advanced-modelDriven" target="_blank" rel="external"><img src="https://travis-ci.org/izerui/struts2-advanced-modelDriven.svg?branch=master" alt="Build Status"></a></p>
+<p>#封装的第四种Action传参方式</p>
+<p>##传统的struts传参有三种</p>
+<ul>
+<li><ol>
+<li>通过属性传参</li>
+</ol>
+</li>
+<li><ol>
+<li>通过域模型传参</li>
+</ol>
+</li>
+<li><ol>
+<li>通过模型驱动传参数</li>
+</ol>
+</li>
+</ul>
+<p>##以上这三种各有利弊,总之一句话概括,无法完全的实现业务和参数分离.总得在自己的Action中定义相关的get set 方法.</p>
+<p>希望能实现参数传递跟业务action完全分离.故封装了模型驱动参数获取方式.</p>
+<p>#如此一来,action 还可以这样写:</p>
+<p>-Action</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">YourAction</span> <span class="keyword">extends</span> <span class="title">BaseActionSupport</span>&lt;<span class="title">YourParam</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//TODO your code ....</span></span><br><span class="line">    <span class="comment">//在需要获取request参数的地方只需要通过 formParam对象get你需要的参数即可</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>-param class 就是一个简单的po类.随你写喽!</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">yourParam</span></span>&#123;</span><br><span class="line">    <span class="comment">// 各种 param fields</span></span><br><span class="line">    <span class="comment">// 各种 get set</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#OK 所有的action请求,都会自动的封装到你定义的param类中. 前提这个类要有不带参数的构造方法,要有你希望获取的参数的get set 方法.</p>
+<p>其实就是把action中的各种 get set 放到了一个统一的param类中.</p>
+<p>一个action  一个 param类. 是不是很清晰.业务跟参数代码分离了. struts action 是不是更易读了.</p>
+<h1 id="附:_顺带将_BaseActionSupport_放入了一个applicationContext">附: 顺带将 BaseActionSupport 放入了一个applicationContext</h1><h2 id="这样所有的action_都可以直接使用applicationContext_对象,如果您不喜欢可以自行去掉-">这样所有的action 都可以直接使用applicationContext 对象,如果您不喜欢可以自行去掉.</h2><p>##步骤如下:</p>
+<ul>
+<li><ol>
+<li>删除 protected ApplicationContext applicationContext;</li>
+</ol>
+</li>
+<li><ol>
+<li>删除 applicationContext 的 set方法</li>
+</ol>
+</li>
+<li><ol>
+<li>去掉实现的接口 ApplicationContextAware</li>
+</ol>
+</li>
+</ul>
+<p>#不过建议留着吧.</p>
+<ul>
+<li>当你用上 spring 的event 的时候,你会需要它.</li>
+<li>当你需要动态的根据className 或者 classType 获取bean 的时候,你会需要它.</li>
+<li></li>
+</ul>
+<p><img src="http://dl.iteye.com/upload/picture/pic/130175/017e87c4-e4a6-3da8-92c6-7502a0e84486.png" alt="图"></p>
+</span>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
               <a class="post-title-link" href="/2015/08/26/spring-boot监控/" itemprop="url">
                 spring-boot监控
               </a>
@@ -878,7 +996,7 @@ management.context-path=/management
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -892,7 +1010,7 @@ management.context-path=/management
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">37</span>
+              <span class="site-state-item-count">39</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
