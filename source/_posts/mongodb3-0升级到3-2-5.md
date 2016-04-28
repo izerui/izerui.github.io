@@ -55,15 +55,15 @@ sudo service mongod start
 
 ### 备份数据库:
 ```java
-mongodump -h 127.0.0.1 -d {数据库名} -o {要保存的目录}
+mongodump -d {数据库名} -o {要保存的目录}
 ```
 例如:
-mongodump -h 127.0.0.1 -d ddc -o /mnt/wwwroot/ddc.dmp
+mongodump -d ddc -o /mnt/wwwroot/ddc.dmp
 
 ### 导入数据库:
 ```java
-mongorestore -h 127.0.0.1 -d {数据库名} {备份的数据库目录}
+mongorestore -d {数据库名} {备份的数据库目录}
 ```
 例如:
-mongorestore -h 127.0.0.1 -d ddc /mnt/wwwroot/ddc.dmp/ddc
+mongorestore -d ddc /mnt/wwwroot/ddc.dmp/ddc
 
