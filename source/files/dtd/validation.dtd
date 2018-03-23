@@ -1,0 +1,40 @@
+<!-- 表单验证 -->
+<!ELEMENT validation (global*, formset*)>
+
+<!-- 配置相关的 -->
+<!ELEMENT global (validators*)>
+
+<!-- 配置相关的 -->
+<!ELEMENT validators (validator+)>
+
+<!-- 验证器 -->
+<!ELEMENT validator (#PCDATA)>
+<!-- 默认内置的验证器名字有:  -->
+<!ATTLIST validator name CDATA #REQUIRED>
+<!-- 验证器类 必须实现com.ecworking.validator.Valiator 接口-->
+<!ATTLIST validator provider CDATA #REQUIRED>
+<!-- 说明 -->
+<!ATTLIST validator description CDATA #IMPLIED>
+<!-- 错误提示code,从spring message resources中获取,支持i18n-->
+<!ATTLIST validator errCode CDATA #IMPLIED>
+<!-- 错误提示信息 同 errMsg 不一起使用,如果同时配置了以 errCode为准 -->
+<!ATTLIST validator errMsg CDATA #IMPLIED>
+
+<!-- 多个验证form集合 -->
+<!ELEMENT formset (form+)>
+
+<!--
+    验证表单,可自定义,比如区分行业,区分账套,区分类型等根据不同的名称加载不同的验证方案
+-->
+<!ELEMENT form (field*)>
+<!-- 属性名,用来区分验证表单 -->
+<!ATTLIST form name CDATA #REQUIRED>
+<!-- 说明 -->
+<!ATTLIST form description CDATA #IMPLIED>
+
+<!-- 要验证的字段 -->
+<!ELEMENT field (#PCDATA)>
+<!-- 字段名 -->
+<!ATTLIST field property CDATA #REQUIRED>
+<!-- 验证方案,多个逗号区分,如果需要传入参数用括号包围置后  例如: required,notnull,min(1),max(100),email,date(yyyy-MM-dd).... -->
+<!ATTLIST field validators CDATA #IMPLIED>
