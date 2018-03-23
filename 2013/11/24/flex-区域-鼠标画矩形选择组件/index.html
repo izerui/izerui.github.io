@@ -39,44 +39,20 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="网上类似的代码也不少.但是都只是自己工程中单独贴出来的代码片段. 并不适合通用场景,存在很多bug举个例子:
-
-如果画框所属的父组件存在滚动的条. 获取的矩形区域大小和坐标就会错乱
-如果画矩形过程中,鼠标移出目标组件, 该矩形事件无法继续传播,等等.一些bug
-
-今天我把自己工程画框单独剥离出来成一个组件调用.
-如下图:
-
-下面是一个demo工程代码,及整个源码提供大家下载
-RectangleDr">
+<meta name="description" content="网上类似的代码也不少.但是都只是自己工程中单独贴出来的代码片段. 并不适合通用场景,存在很多bug举个例子:  如果画框所属的父组件存在滚动的条. 获取的矩形区域大小和坐标就会错乱 如果画矩形过程中,鼠标移出目标组件, 该矩形事件无法继续传播,等等.一些bug  今天我把自己工程画框单独剥离出来成一个组件调用. 如下图:  下面是一个demo工程代码,及整个源码提供大家下载 RectangleDr">
+<meta name="keywords" content="flex">
 <meta property="og:type" content="article">
 <meta property="og:title" content="flex 区域,鼠标画矩形选择组件 ">
 <meta property="og:url" content="http://boot.ren/2013/11/24/flex-区域-鼠标画矩形选择组件/index.html">
 <meta property="og:site_name" content="泽睿的自言自语">
-<meta property="og:description" content="网上类似的代码也不少.但是都只是自己工程中单独贴出来的代码片段. 并不适合通用场景,存在很多bug举个例子:
-
-如果画框所属的父组件存在滚动的条. 获取的矩形区域大小和坐标就会错乱
-如果画矩形过程中,鼠标移出目标组件, 该矩形事件无法继续传播,等等.一些bug
-
-今天我把自己工程画框单独剥离出来成一个组件调用.
-如下图:
-
-下面是一个demo工程代码,及整个源码提供大家下载
-RectangleDr">
+<meta property="og:description" content="网上类似的代码也不少.但是都只是自己工程中单独贴出来的代码片段. 并不适合通用场景,存在很多bug举个例子:  如果画框所属的父组件存在滚动的条. 获取的矩形区域大小和坐标就会错乱 如果画矩形过程中,鼠标移出目标组件, 该矩形事件无法继续传播,等等.一些bug  今天我把自己工程画框单独剥离出来成一个组件调用. 如下图:  下面是一个demo工程代码,及整个源码提供大家下载 RectangleDr">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://dl2.iteye.com/upload/attachment/0091/5073/17b5bc9d-e217-330e-9d31-9cefa400c02b.png">
 <meta property="og:updated_time" content="2015-10-10T09:20:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="flex 区域,鼠标画矩形选择组件 ">
-<meta name="twitter:description" content="网上类似的代码也不少.但是都只是自己工程中单独贴出来的代码片段. 并不适合通用场景,存在很多bug举个例子:
-
-如果画框所属的父组件存在滚动的条. 获取的矩形区域大小和坐标就会错乱
-如果画矩形过程中,鼠标移出目标组件, 该矩形事件无法继续传播,等等.一些bug
-
-今天我把自己工程画框单独剥离出来成一个组件调用.
-如下图:
-
-下面是一个demo工程代码,及整个源码提供大家下载
-RectangleDr">
+<meta name="twitter:description" content="网上类似的代码也不少.但是都只是自己工程中单独贴出来的代码片段. 并不适合通用场景,存在很多bug举个例子:  如果画框所属的父组件存在滚动的条. 获取的矩形区域大小和坐标就会错乱 如果画矩形过程中,鼠标移出目标组件, 该矩形事件无法继续传播,等等.一些bug  今天我把自己工程画框单独剥离出来成一个组件调用. 如下图:  下面是一个demo工程代码,及整个源码提供大家下载 RectangleDr">
+<meta name="twitter:image" content="http://dl2.iteye.com/upload/attachment/0091/5073/17b5bc9d-e217-330e-9d31-9cefa400c02b.png">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -317,7 +293,7 @@ RectangleDr">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -331,7 +307,7 @@ RectangleDr">
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">39</span>
+              <span class="site-state-item-count">41</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -376,7 +352,7 @@ RectangleDr">
       <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="icon-next-heart"></i>
   </span>

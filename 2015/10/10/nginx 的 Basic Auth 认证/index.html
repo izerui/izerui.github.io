@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="auth,nginx,ssl," />
+  <meta name="keywords" content="nginx,ssl,auth," />
 
 
 
@@ -39,22 +39,18 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="以centos 系统为例:添加httpd-tools工具1yum -y install httpd-tools
-修改nginx 配置文件1vi /etc/nginx/conf.d/default.conf
-在server内增加1234location /basic &amp;#123;    auth_basic &quot;Basic Auth&quot;;     auth_basic_user_file &quot;/etc/n">
+<meta name="description" content="以centos 系统为例:添加httpd-tools工具1yum -y install httpd-tools 修改nginx 配置文件1vi /etc/nginx/conf.d/default.conf 在server内增加1234location /basic &amp;#123;    auth_basic &quot;Basic Auth&quot;;     auth_basic_user_file &quot;/etc/n">
+<meta name="keywords" content="nginx,ssl,auth">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用nginx 实现Basic Auth认证">
 <meta property="og:url" content="http://boot.ren/2015/10/10/nginx 的 Basic Auth 认证/index.html">
 <meta property="og:site_name" content="泽睿的自言自语">
-<meta property="og:description" content="以centos 系统为例:添加httpd-tools工具1yum -y install httpd-tools
-修改nginx 配置文件1vi /etc/nginx/conf.d/default.conf
-在server内增加1234location /basic &amp;#123;    auth_basic &quot;Basic Auth&quot;;     auth_basic_user_file &quot;/etc/n">
+<meta property="og:description" content="以centos 系统为例:添加httpd-tools工具1yum -y install httpd-tools 修改nginx 配置文件1vi /etc/nginx/conf.d/default.conf 在server内增加1234location /basic &amp;#123;    auth_basic &quot;Basic Auth&quot;;     auth_basic_user_file &quot;/etc/n">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2015-10-10T07:53:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用nginx 实现Basic Auth认证">
-<meta name="twitter:description" content="以centos 系统为例:添加httpd-tools工具1yum -y install httpd-tools
-修改nginx 配置文件1vi /etc/nginx/conf.d/default.conf
-在server内增加1234location /basic &amp;#123;    auth_basic &quot;Basic Auth&quot;;     auth_basic_user_file &quot;/etc/n">
+<meta name="twitter:description" content="以centos 系统为例:添加httpd-tools工具1yum -y install httpd-tools 修改nginx 配置文件1vi /etc/nginx/conf.d/default.conf 在server内增加1234location /basic &amp;#123;    auth_basic &quot;Basic Auth&quot;;     auth_basic_user_file &quot;/etc/n">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -198,13 +194,13 @@
       
 
       
-        <span itemprop="articleBody"><h3 id="以centos_系统为例:">以centos 系统为例:</h3><p>添加httpd-tools工具<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y <span class="keyword">install</span> httpd-tools</span><br></pre></td></tr></table></figure></p>
+        <span itemprop="articleBody"><h3 id="以centos-系统为例"><a href="#以centos-系统为例" class="headerlink" title="以centos 系统为例:"></a>以centos 系统为例:</h3><p>添加httpd-tools工具<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y <span class="keyword">install</span> httpd-tools</span><br></pre></td></tr></table></figure></p>
 <p>修改nginx 配置文件<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi <span class="regexp">/etc/</span>nginx<span class="regexp">/conf.d/</span><span class="keyword">default</span>.conf</span><br></pre></td></tr></table></figure></p>
-<p>在server内增加<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">location</span> /basic &#123;</span><br><span class="line">    <span class="title">auth_basic</span> <span class="string">"Basic Auth"</span>; </span><br><span class="line">    <span class="title">auth_basic_user_file</span> <span class="string">"/etc/nginx/.htpasswd"</span>; </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
-<p>创建一个用户 fedora 替换成你自己的账号，回车输入密码并确认<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">htpasswd -c /etc/nginx/<span class="class">.htpasswd</span> fedora</span><br></pre></td></tr></table></figure></p>
-<p>重启nginx服务<br><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/etc/</span>rc.d<span class="regexp">/init.d/</span>nginx restart</span><br></pre></td></tr></table></figure></p>
-<p>或者<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">service</span> nginx reload</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">service</span> nginx restart</span><br></pre></td></tr></table></figure>
+<p>在server内增加<br><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">location</span> <span class="title">/basic</span> &#123;</span><br><span class="line">    auth_basic <span class="string">"Basic Auth"</span>; </span><br><span class="line">    auth_basic_user_file <span class="string">"/etc/nginx/.htpasswd"</span>; </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>创建一个用户 fedora 替换成你自己的账号，回车输入密码并确认<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">htpasswd -c /etc/nginx/<span class="selector-class">.htpasswd</span> fedora</span><br></pre></td></tr></table></figure></p>
+<p>重启nginx服务<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/etc/</span>rc.d<span class="regexp">/init.d/</span>nginx restart</span><br></pre></td></tr></table></figure></p>
+<p>或者<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">service nginx reload</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">service nginx restart</span></span><br></pre></td></tr></table></figure>
 </span>
       
     </div>
@@ -213,11 +209,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/auth/" rel="tag">#auth</a>
-          
             <a href="/tags/nginx/" rel="tag">#nginx</a>
           
             <a href="/tags/ssl/" rel="tag">#ssl</a>
+          
+            <a href="/tags/auth/" rel="tag">#auth</a>
           
         </div>
       
@@ -298,7 +294,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -312,7 +308,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">39</span>
+              <span class="site-state-item-count">41</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -340,7 +336,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#以centos_系统为例:"><span class="nav-number">1.</span> <span class="nav-text">以centos 系统为例:</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#以centos-系统为例"><span class="nav-number">1.</span> <span class="nav-text">以centos 系统为例:</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -357,7 +353,7 @@
       <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="icon-next-heart"></i>
   </span>

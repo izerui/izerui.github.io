@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="mqtt,tcp/ip,websocket," />
+  <meta name="keywords" content="tcp/ip,websocket,mqtt," />
 
 
 
@@ -39,17 +39,20 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="按照OSI网络分层模型，IP是网络层协议，TCP是传输层协议，而HTTP和MQTT是应用层的协议。在这三者之间， TCP是HTTP和MQTT底层的协议。大家对HTTP很熟悉，这里简要介绍下MQTT。MQTT（Message Queuing Telemetry Transport，消息队列遥测传输）是IBM开发的一个即时通讯协议，有可能成为物联网的重要组成部分。该协议支持所有平台，几乎可以把所有联网">
+<meta name="description" content="按照OSI网络分层模型，IP是网络层协议，TCP是传输层协议，而HTTP和MQTT是应用层的协议。在这三者之间， TCP是HTTP和MQTT底层的协议。大家对HTTP很熟悉，这里简要介绍下MQTT。MQTT（Message Queuing Telemetry Transport，消息队列遥测传输）是IBM开发的一个即时通讯协议，有可能成为物联网的重要组成部分。该协议支持所有平台，几乎可以把所有联">
+<meta name="keywords" content="tcp&#x2F;ip,websocket,mqtt">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TCP/IP,WebSocket和MQTT">
+<meta property="og:title" content="TCP&#x2F;IP,WebSocket和MQTT">
 <meta property="og:url" content="http://boot.ren/2016/01/14/TCP-IP-WebSocket和MQTT/index.html">
 <meta property="og:site_name" content="泽睿的自言自语">
-<meta property="og:description" content="按照OSI网络分层模型，IP是网络层协议，TCP是传输层协议，而HTTP和MQTT是应用层的协议。在这三者之间， TCP是HTTP和MQTT底层的协议。大家对HTTP很熟悉，这里简要介绍下MQTT。MQTT（Message Queuing Telemetry Transport，消息队列遥测传输）是IBM开发的一个即时通讯协议，有可能成为物联网的重要组成部分。该协议支持所有平台，几乎可以把所有联网">
+<meta property="og:description" content="按照OSI网络分层模型，IP是网络层协议，TCP是传输层协议，而HTTP和MQTT是应用层的协议。在这三者之间， TCP是HTTP和MQTT底层的协议。大家对HTTP很熟悉，这里简要介绍下MQTT。MQTT（Message Queuing Telemetry Transport，消息队列遥测传输）是IBM开发的一个即时通讯协议，有可能成为物联网的重要组成部分。该协议支持所有平台，几乎可以把所有联">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://boot.ren/files/092222479092653.png">
 <meta property="og:updated_time" content="2016-01-14T15:27:06.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="TCP/IP,WebSocket和MQTT">
-<meta name="twitter:description" content="按照OSI网络分层模型，IP是网络层协议，TCP是传输层协议，而HTTP和MQTT是应用层的协议。在这三者之间， TCP是HTTP和MQTT底层的协议。大家对HTTP很熟悉，这里简要介绍下MQTT。MQTT（Message Queuing Telemetry Transport，消息队列遥测传输）是IBM开发的一个即时通讯协议，有可能成为物联网的重要组成部分。该协议支持所有平台，几乎可以把所有联网">
+<meta name="twitter:title" content="TCP&#x2F;IP,WebSocket和MQTT">
+<meta name="twitter:description" content="按照OSI网络分层模型，IP是网络层协议，TCP是传输层协议，而HTTP和MQTT是应用层的协议。在这三者之间， TCP是HTTP和MQTT底层的协议。大家对HTTP很熟悉，这里简要介绍下MQTT。MQTT（Message Queuing Telemetry Transport，消息队列遥测传输）是IBM开发的一个即时通讯协议，有可能成为物联网的重要组成部分。该协议支持所有平台，几乎可以把所有联">
+<meta name="twitter:image" content="http://boot.ren/files/092222479092653.png">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -196,22 +199,22 @@
         <span itemprop="articleBody"><blockquote>
 <p>按照OSI网络分层模型，IP是网络层协议，TCP是传输层协议，而HTTP和MQTT是应用层的协议。在这三者之间， TCP是HTTP和MQTT底层的协议。大家对HTTP很熟悉，这里简要介绍下MQTT。MQTT（Message Queuing Telemetry Transport，消息队列遥测传输）是IBM开发的一个即时通讯协议，有可能成为物联网的重要组成部分。该协议支持所有平台，几乎可以把所有联网物品和外部连接起来，被用来当做传感器的通信协议。</p>
 </blockquote>
-<h1 id="HTTP的不足">HTTP的不足</h1><p>HTTP协议经过多年的使用，发现了一些不足，主要是性能方面的，包括：</p>
+<h1 id="HTTP的不足"><a href="#HTTP的不足" class="headerlink" title="HTTP的不足"></a>HTTP的不足</h1><p>HTTP协议经过多年的使用，发现了一些不足，主要是性能方面的，包括：</p>
 <p>HTTP的连接问题，HTTP客户端和服务器之间的交互是采用请求/应答模式，在客户端请求时，会建立一个HTTP连接，然后发送请求消息，服务端给出应答消息，然后连接就关闭了。（后来的HTTP1.1支持持久连接）<br>因为TCP连接的建立过程是有开销的，如果使用了SSL/TLS开销就更大。</p>
 <p>在浏览器里，一个网页包含许多资源，包括HTML，CSS，JavaScript，图片等等，这样在加载一个网页时要同时打开连接到同一服务器的多个连接。</p>
 <p>HTTP消息头问题，现在的客户端会发送大量的HTTP消息头，由于一个网页可能需要50-100个请求，就会有相当大的消息头的数据量。</p>
 <p>HTTP通信方式问题，HTTP的请求/应答方式的会话都是客户端发起的，缺乏服务器通知客户端的机制，在需要通知的场景，如聊天室，游戏，客户端应用需要不断地轮询服务器。</p>
 <p>而 WebSocket是从不同的角度来解决这些不足中的一部分。还有其他技术也在针对这些不足提出改进。</p>
-<h1 id="WebSocket">WebSocket</h1><p>WebSocket则提供使用一个TCP连接进行双向通讯的机制，包括网络协议和API，以取代网页和服务器采用HTTP轮询进行双向通讯的机制。<br>本质上来说，WebSocket是不限于HTTP协议的，但是由于现存大量的HTTP基础设施，代理，过滤，身份认证等等，WebSocket借用HTTP和HTTPS的端口。由于使用HTTP的端口，因此TCP连接建立后的握手消息是基于HTTP的，由服务器判断这是一个HTTP协议，还是WebSocket协议。 WebSocket连接除了建立和关闭时的握手，数据传输和HTTP没丁点关系了。</p>
+<h1 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h1><p>WebSocket则提供使用一个TCP连接进行双向通讯的机制，包括网络协议和API，以取代网页和服务器采用HTTP轮询进行双向通讯的机制。<br>本质上来说，WebSocket是不限于HTTP协议的，但是由于现存大量的HTTP基础设施，代理，过滤，身份认证等等，WebSocket借用HTTP和HTTPS的端口。由于使用HTTP的端口，因此TCP连接建立后的握手消息是基于HTTP的，由服务器判断这是一个HTTP协议，还是WebSocket协议。 WebSocket连接除了建立和关闭时的握手，数据传输和HTTP没丁点关系了。</p>
 <p>历时11年，WebSocket终于被批准成为IETF的建议标准：RFC6455.其前身是WHATWG （Web Hypertext Application Technology Working Group）的工作。而Web Socket的API,是W3C的工作。</p>
 <p>WebSocket可以只打开一个到服务器的链接，并且在此链接上交换信息。其优势在于减少了传统方法的复杂性，提高了可靠性和降低了浏览器和客户端之间的负载。这样做的一个重要原因是，很多防火墙屏蔽80以外的端口，迫使越来越多的应用迁移到HTTP上来了。</p>
 <p>11年的websocket草案的变迁中，有的浏览器支持的是旧版本的websocket，比如iPhone4上的safari使用的WebSocket是旧版的握手协议,那么就要使用就的握手协议来制做服务器端。如今只有Safari支持旧版本的协议，Chrome和Firefox最新版都已升级至Hybi-10（协议地址）。因此，我们再来看一下WebSocket新版协议Hybi-10。这次协议变更非常大，主要集中在握手协议和数据传输的格式上。</p>
-<h2 id="握手协议">握手协议</h2><p>我们先来看一下大致的区别：</p>
+<h2 id="握手协议"><a href="#握手协议" class="headerlink" title="握手协议"></a>握手协议</h2><p>我们先来看一下大致的区别：</p>
 <p>最老的websocket草案标准中是没有安全key，草案7.5、7.6中有两个安全key，而现在的草案10中只有一个安全key，即将 7.5、7.6中http头中的”Sec-WebSocket-Key1″与”Sec-WebSocket-Key2″合并为了一个”Sec- WebSocket-Key”<br>把http头中Upgrade的值由”WebSocket”修改为了”websocket”；http头中的”-Origin”修改为了”Sec-WebSocket-Origin”;<br>增加了http头”Sec-WebSocket-Accept”，用来返回原来草案7.5、7.6服务器返回给客户端的握手验证，原来是以内容的形式返回，现在是放到了http头中；另外服务器返回客户端的验证方式也有变化。<br>服务器生成验证的方式变化较大，我们来做一介绍。</p>
-<h3 id="旧版：">旧版：</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET / HTTP/<span class="number">1.1</span></span><br><span class="line">Upgrade: WebSocket</span><br><span class="line">Connection: Upgrade</span><br><span class="line">Host: <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">1337</span></span><br><span class="line">Origin: http:<span class="comment">//127.0.0.1:8000</span></span><br><span class="line">Cookie: sessionid=xxxx; calView=day; dayCurrentDate=<span class="number">1314288000000</span></span><br><span class="line">Sec-WebSocket-Key1: cV`p1* <span class="number">42</span><span class="preprocessor">#<span class="number">7</span>  ^<span class="number">9</span>&#125;_ <span class="number">647</span>  <span class="number">08</span>&#123;</span></span><br><span class="line">Sec-WebSocket-Key2: O8 <span class="number">415</span> <span class="number">8</span>x37R A8   <span class="number">4</span></span><br><span class="line">;<span class="string">"######</span></span><br></pre></td></tr></table></figure>
+<h3 id="旧版："><a href="#旧版：" class="headerlink" title="旧版："></a>旧版：</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">GET</span> <span class="string">/</span> <span class="string">HTTP/1.1</span></span><br><span class="line"><span class="attr">Upgrade:</span> <span class="string">WebSocket</span></span><br><span class="line"><span class="attr">Connection:</span> <span class="string">Upgrade</span></span><br><span class="line"><span class="attr">Host:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="string">:1337</span></span><br><span class="line"><span class="attr">Origin:</span> <span class="attr">http://127.0.0.1:8000</span></span><br><span class="line"><span class="attr">Cookie:</span> <span class="string">sessionid=xxxx;</span> <span class="string">calView=day;</span> <span class="string">dayCurrentDate=1314288000000</span></span><br><span class="line"><span class="attr">Sec-WebSocket-Key1:</span> <span class="string">cV`p1*</span> <span class="number">42</span><span class="comment">#7  ^9&#125;_ 647  08&#123;</span></span><br><span class="line"><span class="attr">Sec-WebSocket-Key2:</span> <span class="string">O8</span> <span class="number">415</span> <span class="number">8</span><span class="string">x37R</span> <span class="string">A8</span>   <span class="number">4</span></span><br><span class="line"><span class="string">;"######</span></span><br></pre></td></tr></table></figure>
 <p>旧版生成Token的方法如下：</p>
 <p>取出Sec-WebSocket-Key1中的所有数字字符形成一个数值，这里是1427964708，然后除以Key1中的空格数目，得到一个数值，保留该数值整数位，得到数值N1；对Sec-WebSocket-Key2采取同样的算法，得到第二个整数N2；把N1和N2按照Big- Endian字符序列连接起来，然后再与另外一个Key3连接，得到一个原始序列ser_key。Key3是指在握手请求最后，有一个8字节的奇怪的字符串”;”######”，这个就是Key3。然后对ser_key进行一次md5运算得出一个16字节长的digest，这就是老版本协议需要的 token，然后将这个token附在握手消息的最后发送回Client，即可完成握手。</p>
-<h3 id="新版：">新版：</h3><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="request">GET <span class="string">/</span> HTTP/1.1</span></span><br><span class="line"><span class="attribute">Upgrade</span>: <span class="string">websocket</span></span><br><span class="line"><span class="attribute">Connection</span>: <span class="string">Upgrade</span></span><br><span class="line"><span class="attribute">Host</span>: <span class="string">127.0.0.1:1337</span></span><br><span class="line"><span class="attribute">Sec-WebSocket-Origin</span>: <span class="string">http://127.0.0.1:8000</span></span><br><span class="line"><span class="attribute">Sec-WebSocket-Key</span>: <span class="string">erWJbDVAlYnHvHNulgrW8Q==</span></span><br><span class="line"><span class="attribute">Sec-WebSocket-Version</span>: <span class="string">8</span></span><br><span class="line"><span class="attribute">Cookie</span>: <span class="string">csrftoken=xxxxxx; sessionid=xxxxx</span></span><br></pre></td></tr></table></figure>
+<h3 id="新版："><a href="#新版：" class="headerlink" title="新版："></a>新版：</h3><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Upgrade</span>: websocket</span><br><span class="line"><span class="attribute">Connection</span>: Upgrade</span><br><span class="line"><span class="attribute">Host</span>: 127.0.0.1:1337</span><br><span class="line"><span class="attribute">Sec-WebSocket-Origin</span>: http://127.0.0.1:8000</span><br><span class="line"><span class="attribute">Sec-WebSocket-Key</span>: erWJbDVAlYnHvHNulgrW8Q==</span><br><span class="line"><span class="attribute">Sec-WebSocket-Version</span>: 8</span><br><span class="line"><span class="attribute">Cookie</span>: csrftoken=xxxxxx; sessionid=xxxxx</span><br></pre></td></tr></table></figure>
 <p>新版生成Token的方法如下：</p>
 <p>首先服务器将key（长度24）截取出来，如4tAjitqO9So2Wu8lkrsq3w==，用它和自定义的一个字符串（长度 36）258EAFA5-E914-47DA-95CA-C5AB0DC85B11连接起来，然后把这一字符串进行SHA-1算法加密，得到长度为20字节的二进制数据，再将这些数据经过Base64编码，最终得到服务端的密钥，也就是ser_key。服务器将ser_key附在返回值Sec- WebSocket-Accept后，至此握手成功。</p>
 <p>WebSocket也有自己一套帧协议。数据报文格式如下：</p>
@@ -222,7 +225,7 @@
 <p>%x0 表示连续消息片断<br>%x1 表示文本消息片断<br>%x2 表未二进制消息片断<br>%x3-7 为将来的非控制消息片断保留的操作码<br>%x8 表示连接关闭<br>%x9 表示心跳检查的ping<br>%xA 表示心跳检查的pong<br>%xB-F 为将来的控制消息片断的保留操作码<br>Mask:1位，定义传输的数据是否有加掩码,如果设置为1,掩码键必须放在masking-key区域，客户端发送给服务端的所有消息，此位的值都是1；</p>
 <p>Payload length: 传输数据的长度，以字节的形式表示：7位、7+16位、或者7+64位。如果这个值以字节表示是0-125这个范围，那这个值就表示传输数据的长度；如果这个值是126，则随后的两个字节表示的是一个16进制无符号数，用来表示传输数据的长度；如果这个值是127,则随后的是8个字节表示的一个64位无符合数，这个数用来表示传输数据的长度。多字节长度的数量是以网络字节的顺序表示。负载数据的长度为扩展数据及应用数据之和，扩展数据的长度可能为0,因而此时负载数据的长度就为应用数据的长度。</p>
 <p>Masking-key:0或4个字节，客户端发送给服务端的数据，都是通过内嵌的一个32位值作为掩码的；掩码键只有在掩码位设置为1的时候存在。<br>Payload data:  (x+y)位，负载数据为扩展数据及应用数据长度之和。<br>Extension data:x位，如果客户端与服务端之间没有特殊约定，那么扩展数据的长度始终为0，任何的扩展都必须指定扩展数据的长度，或者长度的计算方式，以及在握手时如何确定正确的握手方式。如果存在扩展数据，则扩展数据就会包括在负载数据的长度之内。<br>Application data:y位，任意的应用数据，放在扩展数据之后，应用数据的长度=负载数据的长度-扩展数据的长度。</p>
-<h1 id="MQTT">MQTT</h1><blockquote>
+<h1 id="MQTT"><a href="#MQTT" class="headerlink" title="MQTT"></a>MQTT</h1><blockquote>
 <p>（Message Queuing Telemetry Transport，消息队列遥测传输）是轻量级基于代理的发布/订阅的消息传输协议，设计思想是开放、简单、轻量、易于实现。这些特点使它适用于受限环境。例如，但不仅限于此：</p>
 </blockquote>
 <p>网络代价昂贵，带宽低、不可靠。<br>在嵌入设备中运行，处理器和内存资源有限。<br>该协议的特点有：</p>
@@ -255,11 +258,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mqtt/" rel="tag">#mqtt</a>
-          
             <a href="/tags/tcp-ip/" rel="tag">#tcp/ip</a>
           
             <a href="/tags/websocket/" rel="tag">#websocket</a>
+          
+            <a href="/tags/mqtt/" rel="tag">#mqtt</a>
           
         </div>
       
@@ -340,7 +343,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -354,7 +357,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">39</span>
+              <span class="site-state-item-count">41</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -399,7 +402,7 @@
       <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="icon-next-heart"></i>
   </span>

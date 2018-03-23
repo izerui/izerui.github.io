@@ -30,7 +30,7 @@
 
 
 
-  <meta name="keywords" content="3.2.5,mongodb," />
+  <meta name="keywords" content="mongodb,3.2.5," />
 
 
 
@@ -39,28 +39,18 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="安装mongodb
-创建yum repo文件 /etc/yum.repos.d/mongodb-org-3.2.repo ,这样可以使用yum命令安装mongodb了.
-
-文件内容:
-123456[mongodb-org-3.2]name=MongoDB Repositorybaseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongod">
+<meta name="description" content="安装mongodb 创建yum repo文件 /etc/yum.repos.d/mongodb-org-3.2.repo ,这样可以使用yum命令安装mongodb了.  文件内容: 123456[mongodb-org-3.2]name=MongoDB Repositorybaseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongod">
+<meta name="keywords" content="mongodb,3.2.5">
 <meta property="og:type" content="article">
 <meta property="og:title" content="centos6 mongodb 3.0.x 升级到 3.2.5 (并迁移数据)">
 <meta property="og:url" content="http://boot.ren/2016/04/28/mongodb3-0升级到3-2-5/index.html">
 <meta property="og:site_name" content="泽睿的自言自语">
-<meta property="og:description" content="安装mongodb
-创建yum repo文件 /etc/yum.repos.d/mongodb-org-3.2.repo ,这样可以使用yum命令安装mongodb了.
-
-文件内容:
-123456[mongodb-org-3.2]name=MongoDB Repositorybaseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongod">
+<meta property="og:description" content="安装mongodb 创建yum repo文件 /etc/yum.repos.d/mongodb-org-3.2.repo ,这样可以使用yum命令安装mongodb了.  文件内容: 123456[mongodb-org-3.2]name=MongoDB Repositorybaseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongod">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2016-04-28T09:11:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="centos6 mongodb 3.0.x 升级到 3.2.5 (并迁移数据)">
-<meta name="twitter:description" content="安装mongodb
-创建yum repo文件 /etc/yum.repos.d/mongodb-org-3.2.repo ,这样可以使用yum命令安装mongodb了.
-
-文件内容:
-123456[mongodb-org-3.2]name=MongoDB Repositorybaseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongod">
+<meta name="twitter:description" content="安装mongodb 创建yum repo文件 /etc/yum.repos.d/mongodb-org-3.2.repo ,这样可以使用yum命令安装mongodb了.  文件内容: 123456[mongodb-org-3.2]name=MongoDB Repositorybaseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongod">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -204,7 +194,7 @@
       
 
       
-        <span itemprop="articleBody"><h2 id="安装mongodb">安装mongodb</h2><ul>
+        <span itemprop="articleBody"><h2 id="安装mongodb"><a href="#安装mongodb" class="headerlink" title="安装mongodb"></a>安装mongodb</h2><ul>
 <li>创建yum repo文件 <strong>/etc/yum.repos.d/mongodb-org-3.2.repo</strong> ,这样可以使用yum命令安装mongodb了.</li>
 </ul>
 <p>文件内容:</p>
@@ -217,7 +207,7 @@
 <li>启动mongodb </li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service mongod start</span><br></pre></td></tr></table></figure>
-<h2 id="配置mongodb">配置mongodb</h2><p>在启动mongodb之前可以配置下mongodb的db path 等.</p>
+<h2 id="配置mongodb"><a href="#配置mongodb" class="headerlink" title="配置mongodb"></a>配置mongodb</h2><p>在启动mongodb之前可以配置下mongodb的db path 等.</p>
 <p>创建一个目录用来保存log 和db 文件 ,这里以 /www/mongodb/ 为例</p>
 <p>注意: 要赋予该目录相应的权限<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R mongod.mongod /www/mongodb</span><br></pre></td></tr></table></figure></p>
 <ul>
@@ -227,9 +217,9 @@
 </ul>
 <p>好了, 可以启动mongodb服务了.</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service mongod start</span><br></pre></td></tr></table></figure>
-<h2 id="迁移旧的db,并导入到新建的mongodb中">迁移旧的db,并导入到新建的mongodb中</h2><h3 id="备份数据库:">备份数据库:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodump -d &#123;数据库名&#125; -o &#123;要保存的目录&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="迁移旧的db-并导入到新建的mongodb中"><a href="#迁移旧的db-并导入到新建的mongodb中" class="headerlink" title="迁移旧的db,并导入到新建的mongodb中"></a>迁移旧的db,并导入到新建的mongodb中</h2><h3 id="备份数据库"><a href="#备份数据库" class="headerlink" title="备份数据库:"></a>备份数据库:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodump -d &#123;数据库名&#125; -o &#123;要保存的目录&#125;</span><br></pre></td></tr></table></figure>
 <p>例如:<br>mongodump -d ddc -o /mnt/wwwroot/ddc.dmp</p>
-<h3 id="导入数据库:">导入数据库:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongorestore -d &#123;数据库名&#125; &#123;备份的数据库目录&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="导入数据库"><a href="#导入数据库" class="headerlink" title="导入数据库:"></a>导入数据库:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongorestore -d &#123;数据库名&#125; &#123;备份的数据库目录&#125;</span><br></pre></td></tr></table></figure>
 <p>例如:<br>mongorestore -d ddc /mnt/wwwroot/ddc.dmp/ddc</p>
 </span>
       
@@ -239,9 +229,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/3-2-5/" rel="tag">#3.2.5</a>
-          
             <a href="/tags/mongodb/" rel="tag">#mongodb</a>
+          
+            <a href="/tags/3-2-5/" rel="tag">#3.2.5</a>
           
         </div>
       
@@ -249,6 +239,8 @@
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/23/在spring-boot-data-jpa中设置全局hibernate拦截器Interceptor/" rel="prev">在spring-boot-data-jpa中设置全局hibernate拦截器Interceptor</a>
             
           </div>
 
@@ -320,7 +312,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -334,7 +326,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">39</span>
+              <span class="site-state-item-count">41</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -362,7 +354,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装mongodb"><span class="nav-number">1.</span> <span class="nav-text">安装mongodb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置mongodb"><span class="nav-number">2.</span> <span class="nav-text">配置mongodb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迁移旧的db,并导入到新建的mongodb中"><span class="nav-number">3.</span> <span class="nav-text">迁移旧的db,并导入到新建的mongodb中</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#备份数据库:"><span class="nav-number">3.1.</span> <span class="nav-text">备份数据库:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导入数据库:"><span class="nav-number">3.2.</span> <span class="nav-text">导入数据库:</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装mongodb"><span class="nav-number">1.</span> <span class="nav-text">安装mongodb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置mongodb"><span class="nav-number">2.</span> <span class="nav-text">配置mongodb</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迁移旧的db-并导入到新建的mongodb中"><span class="nav-number">3.</span> <span class="nav-text">迁移旧的db,并导入到新建的mongodb中</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#备份数据库"><span class="nav-number">3.1.</span> <span class="nav-text">备份数据库:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导入数据库"><span class="nav-number">3.2.</span> <span class="nav-text">导入数据库:</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -379,7 +371,7 @@
       <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="icon-next-heart"></i>
   </span>

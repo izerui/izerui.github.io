@@ -39,22 +39,18 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
 
 
-<meta name="description" content="概述Geode是一个提供实时、一致访问大型分布式云平台下数据密集型应用的数据管理平台。最近开源啦！
-Geode 通过跨多进程，把内存、CPU、网络资源和可选的本地磁盘汇集起来，来管理应用程序对象及其行为。它使用动态复制和数据分片技术，来实现高可用性，改善性能、可伸缩性和容错。Geode 除了是一个分布式数据容器，它还是一个内存数据管理系统，提供了可靠的异步事件通知和有保证的消息传递。
-Geode">
+<meta name="description" content="概述Geode是一个提供实时、一致访问大型分布式云平台下数据密集型应用的数据管理平台。最近开源啦！ Geode 通过跨多进程，把内存、CPU、网络资源和可选的本地磁盘汇集起来，来管理应用程序对象及其行为。它使用动态复制和数据分片技术，来实现高可用性，改善性能、可伸缩性和容错。Geode 除了是一个分布式数据容器，它还是一个内存数据管理系统，提供了可靠的异步事件通知和有保证的消息传递。 Geode">
+<meta name="keywords" content="geode">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Geode数据管理平台">
 <meta property="og:url" content="http://boot.ren/2015/11/10/Geode数据管理平台/index.html">
 <meta property="og:site_name" content="泽睿的自言自语">
-<meta property="og:description" content="概述Geode是一个提供实时、一致访问大型分布式云平台下数据密集型应用的数据管理平台。最近开源啦！
-Geode 通过跨多进程，把内存、CPU、网络资源和可选的本地磁盘汇集起来，来管理应用程序对象及其行为。它使用动态复制和数据分片技术，来实现高可用性，改善性能、可伸缩性和容错。Geode 除了是一个分布式数据容器，它还是一个内存数据管理系统，提供了可靠的异步事件通知和有保证的消息传递。
-Geode">
+<meta property="og:description" content="概述Geode是一个提供实时、一致访问大型分布式云平台下数据密集型应用的数据管理平台。最近开源啦！ Geode 通过跨多进程，把内存、CPU、网络资源和可选的本地磁盘汇集起来，来管理应用程序对象及其行为。它使用动态复制和数据分片技术，来实现高可用性，改善性能、可伸缩性和容错。Geode 除了是一个分布式数据容器，它还是一个内存数据管理系统，提供了可靠的异步事件通知和有保证的消息传递。 Geode">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2015-11-10T14:22:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Geode数据管理平台">
-<meta name="twitter:description" content="概述Geode是一个提供实时、一致访问大型分布式云平台下数据密集型应用的数据管理平台。最近开源啦！
-Geode 通过跨多进程，把内存、CPU、网络资源和可选的本地磁盘汇集起来，来管理应用程序对象及其行为。它使用动态复制和数据分片技术，来实现高可用性，改善性能、可伸缩性和容错。Geode 除了是一个分布式数据容器，它还是一个内存数据管理系统，提供了可靠的异步事件通知和有保证的消息传递。
-Geode">
+<meta name="twitter:description" content="概述Geode是一个提供实时、一致访问大型分布式云平台下数据密集型应用的数据管理平台。最近开源啦！ Geode 通过跨多进程，把内存、CPU、网络资源和可选的本地磁盘汇集起来，来管理应用程序对象及其行为。它使用动态复制和数据分片技术，来实现高可用性，改善性能、可伸缩性和容错。Geode 除了是一个分布式数据容器，它还是一个内存数据管理系统，提供了可靠的异步事件通知和有保证的消息传递。 Geode">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -198,10 +194,10 @@ Geode">
       
 
       
-        <span itemprop="articleBody"><h1 id="概述">概述</h1><p>Geode是一个提供实时、一致访问大型分布式云平台下数据密集型应用的数据管理平台。最近开源啦！</p>
+        <span itemprop="articleBody"><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>Geode是一个提供实时、一致访问大型分布式云平台下数据密集型应用的数据管理平台。最近开源啦！</p>
 <p>Geode 通过跨多进程，把内存、CPU、网络资源和可选的本地磁盘汇集起来，来管理应用程序对象及其行为。它使用动态复制和数据分片技术，来实现高可用性，改善性能、可伸缩性和容错。Geode 除了是一个分布式数据容器，它还是一个内存数据管理系统，提供了可靠的异步事件通知和有保证的消息传递。</p>
 <p>Geode 是一个非常成熟、健壮的产品，它的前身可以追溯到第一个由 Smalltalk 构造的对象数据库：GeoStone。作为一个事务性、低延迟的数据引擎，多个华尔街交易平台首次将 Geode（称为GemFire™）部署在金融部门。如今已有超过 600 家企业用户将 Geode 用于大规模、7*24 业务核心应用程序中。其中一个应用案例就是中国国家铁路将 Geode 用于整个国家的铁路票务系统，10 个节点集群管理着 2TB 的内存热数据，以及 10 个备份节点作为高可用性和弹性扩展。</p>
-<h1 id="主要概念和组件">主要概念和组件</h1><p>在 Geode 分布式系统中，“缓存”是用来形容一个节点的抽象概念。</p>
+<h1 id="主要概念和组件"><a href="#主要概念和组件" class="headerlink" title="主要概念和组件"></a>主要概念和组件</h1><p>在 Geode 分布式系统中，“缓存”是用来形容一个节点的抽象概念。</p>
 <p>在每个缓存中，由您定义数据区域。数据区域（Data region）类似于关系型数据库的表，并且作为“name/value 对”以分布式方式管理数据。复制区域（replicated region）存储着 {分布式系统中每个缓存成员数据的} 相同副本。分区区域（partitioned region）在缓存成员之间传播数据。系统配置之后，客户端应用 {在不了解底层系统架构的情况下} 也可访问区域中的分布式数据。当数据发生改变的时候，您可以定义监听器来接收通知，并且您也可以定义过期条件，来删除区域中的过期数据。</p>
 <p>定位器（Locator）提供发现服务和负载均衡服务。您可通过定位器服务列表来配置客户端，定位器维护着一个动态成员服务器列表。默认情况下，Geode 客户端和服务器使用40404端口，以及通过使用多播互相通信。</p>
 <p>Geode 包含以下特性：</p>
@@ -233,24 +229,24 @@ Geode">
 <li><p>在主版本发布之间滚动升级。</p>
 </li>
 </ul>
-<h1 id="Geode_5分钟入门">Geode 5分钟入门</h1><p>从 Pivotal 获取源文件，从源文件中提取并构建（注：目前 Geode 支持 jdk1.7.75）：</p>
-<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$ </span>cd geode</span><br><span class="line"><span class="variable">$ </span>./gradlew build installDist</span><br></pre></td></tr></table></figure>
+<h1 id="Geode-5分钟入门"><a href="#Geode-5分钟入门" class="headerlink" title="Geode 5分钟入门"></a>Geode 5分钟入门</h1><p>从 Pivotal 获取源文件，从源文件中提取并构建（注：目前 Geode 支持 jdk1.7.75）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> geode</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./gradlew build installDist</span></span><br></pre></td></tr></table></figure>
 <p>启动定位器和服务器：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ cd gemfire-assembly/build/<span class="operator"><span class="keyword">install</span>/geode</span><br><span class="line">$ ./<span class="keyword">bin</span>/gfsh</span><br><span class="line">gfsh&gt; <span class="keyword">start</span> <span class="keyword">locator</span> <span class="comment">--name=locator</span></span><br><span class="line">gfsh&gt; <span class="keyword">start</span> <span class="keyword">server</span> <span class="comment">--name=server</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ cd gemfire-assembly/build/install/geode</span><br><span class="line">$ ./bin/gfsh</span><br><span class="line">gfsh&gt; start locator <span class="attribute">--name</span>=locator</span><br><span class="line">gfsh&gt; start<span class="built_in"> server </span><span class="attribute">--name</span>=server</span><br></pre></td></tr></table></figure>
 <p>创建一个区域：</p>
-<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">gfsh</span>&gt; <span class="comment">create</span> <span class="comment">region</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">name=region</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">type=REPLICATE</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gfsh&gt; create region <span class="attribute">--name</span>=region <span class="attribute">--type</span>=REPLICATE</span><br></pre></td></tr></table></figure>
 <p>编写一个客户端应用程序：</p>
 <p>HelloWorld.java</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">import</span> com.gemstone.gemfire.cache.Region;</span><br><span class="line"><span class="keyword">import</span> com.gemstone.gemfire.cache.client.*;</span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">HelloWorld</span> </span>&#123;</span><br><span class="line">public static <span class="keyword">void</span> main(<span class="built_in">String</span>[] args) throws Exception &#123;</span><br><span class="line">ClientCache cache = <span class="keyword">new</span> ClientCacheFactory()</span><br><span class="line">.addPoolLocator(<span class="string">"localhost"</span>, <span class="number">10334</span>)</span><br><span class="line">.create();</span><br><span class="line">Region&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; region = cache</span><br><span class="line">.&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt;createClientRegionFactory(ClientRegionShortcut.CACHING_PROXY)</span><br><span class="line">.create(<span class="string">"region"</span>);</span><br><span class="line">region.put(<span class="string">"1"</span>, <span class="string">"Hello"</span>);</span><br><span class="line">region.put(<span class="string">"2"</span>, <span class="string">"World"</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">Map</span>.Entry&lt;<span class="built_in">String</span>, <span class="built_in">String</span>&gt; entry : region.entrySet()) &#123;</span><br><span class="line">System.out.format(<span class="string">"key = %s, value = %sn"</span>, entry.getKey(), entry.getValue());</span><br><span class="line">&#125;</span><br><span class="line">cache.close();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">import</span> com.gemstone.gemfire.cache.Region;</span><br><span class="line"><span class="keyword">import</span> com.gemstone.gemfire.cache.client.*;</span><br><span class="line"><span class="keyword">public</span> class HelloWorld &#123;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args) throws Exception &#123;</span><br><span class="line">ClientCache cache = <span class="keyword">new</span> ClientCacheFactory()</span><br><span class="line">.addPoolLocator(<span class="string">"localhost"</span>, <span class="number">10334</span>)</span><br><span class="line">.create();</span><br><span class="line">Region&lt;<span class="keyword">String</span>, <span class="keyword">String</span>&gt; region = cache</span><br><span class="line">.&lt;<span class="keyword">String</span>, <span class="keyword">String</span>&gt;createClientRegionFactory(ClientRegionShortcut.CACHING_PROXY)</span><br><span class="line">.create(<span class="string">"region"</span>);</span><br><span class="line">region.<span class="built_in">put</span>(<span class="string">"1"</span>, <span class="string">"Hello"</span>);</span><br><span class="line">region.<span class="built_in">put</span>(<span class="string">"2"</span>, <span class="string">"World"</span>);</span><br><span class="line"><span class="built_in">for</span> (Map.Entry&lt;<span class="keyword">String</span>, <span class="keyword">String</span>&gt; entry : region.entrySet()) &#123;</span><br><span class="line">System.out.format(<span class="string">"key = %s, value = %sn"</span>, entry.<span class="built_in">getKey</span>(), entry.getValue());</span><br><span class="line">&#125;</span><br><span class="line">cache.<span class="built_in">close</span>();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>编译并运行 HelloWorld.java。classpath 中应包含 gemfire-core-dependencies.jar 包：</p>
-<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">javac -cp /some/path/geode/gemfire-assembly/build/install/geode/<span class="class"><span class="keyword">lib</span>/<span class="title">gemfire</span>-<span class="title">core</span>-<span class="title">dependencies</span>.<span class="title">jar</span> <span class="title">HelloWorld</span>.<span class="title">java</span></span></span><br><span class="line">java -cp .<span class="symbol">:/some/path/geode/gemfire-assembly/build/install/geode/lib/gemfire-core-dependencies</span>.jar <span class="constant">HelloWorld</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">javac -cp /some/path/geode/gemfire-assembly/build/install/geode/<span class="class"><span class="keyword">lib</span>/<span class="title">gemfire</span>-<span class="title">core</span>-<span class="title">dependencies</span>.<span class="title">jar</span> <span class="title">HelloWorld</span>.<span class="title">java</span></span></span><br><span class="line">java -cp .:<span class="regexp">/some/path</span><span class="regexp">/geode/gemfire</span>-assembly/build/install/geode/<span class="class"><span class="keyword">lib</span>/<span class="title">gemfire</span>-<span class="title">core</span>-<span class="title">dependencies</span>.<span class="title">jar</span> <span class="title">HelloWorld</span></span></span><br></pre></td></tr></table></figure>
 <p>应用程序开发</p>
 <p>Geode 应用程序可以用很多种客户端技术实现：</p>
 <p>Java 通过使用 Geode 客户端 API，或者嵌入式使用 Geode API</p>
 <p>Spring Data GemFire或 Spring Cache</p>
-<p>Python（<a href="https://github.com/gemfire/py-gemfire-rest）" target="_blank" rel="external">https://github.com/gemfire/py-gemfire-rest）</a></p>
+<p>Python（<a href="https://github.com/gemfire/py-gemfire-rest）" target="_blank" rel="noopener">https://github.com/gemfire/py-gemfire-rest）</a></p>
 <p>REST</p>
-<p>memcached<br>英文出处：Geode<br>译文出处：伯乐在线-Martin<br>译文链接：<a href="http://blog.jobbole.com/87810/" target="_blank" rel="external">http://blog.jobbole.com/87810/</a></p>
+<p>memcached<br>英文出处：Geode<br>译文出处：伯乐在线-Martin<br>译文链接：<a href="http://blog.jobbole.com/87810/" target="_blank" rel="noopener">http://blog.jobbole.com/87810/</a></p>
 </span>
       
     </div>
@@ -340,7 +336,7 @@ Geode">
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-count">19</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -354,7 +350,7 @@ Geode">
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">39</span>
+              <span class="site-state-item-count">41</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
@@ -382,7 +378,7 @@ Geode">
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主要概念和组件"><span class="nav-number">2.</span> <span class="nav-text">主要概念和组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Geode_5分钟入门"><span class="nav-number">3.</span> <span class="nav-text">Geode 5分钟入门</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主要概念和组件"><span class="nav-number">2.</span> <span class="nav-text">主要概念和组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Geode-5分钟入门"><span class="nav-number">3.</span> <span class="nav-text">Geode 5分钟入门</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -399,7 +395,7 @@ Geode">
       <div class="footer-inner"> <div class="copyright" >
   
   &copy; &nbsp; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="icon-next-heart"></i>
   </span>
