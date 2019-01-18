@@ -1,0 +1,671 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.5.1"/>
+
+
+    <meta name="description" content="Spring Boot 分布式技术博客" />
+
+
+
+  <meta name="keywords" content="扫码,登录," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.1" />
+
+
+<meta name="description" content="网页扫码登录原理及过程 现实中我们经常会用上扫码登录的方式，可以借助微信、qq等oauth2认证方式，也可以通过APP实现扫码登录。那么现在我们介绍下通过app实现扫码登录的一系列原理，及实现的过程。  扫码的过程分析 打开登录页面，展示一个二维码(web) 打开APP扫描该二维码后，APP显示确认、取消按钮(app) 这时候登录页面展示被扫描的用户头像等信息(web) 用户在APP上点击确认登录">
+<meta name="keywords" content="扫码,登录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网页扫码登录原理及过程">
+<meta property="og:url" content="http://boot.ren/2019/01/18/扫码登录原理及过程/index.html">
+<meta property="og:site_name" content="泽睿的自言自语">
+<meta property="og:description" content="网页扫码登录原理及过程 现实中我们经常会用上扫码登录的方式，可以借助微信、qq等oauth2认证方式，也可以通过APP实现扫码登录。那么现在我们介绍下通过app实现扫码登录的一系列原理，及实现的过程。  扫码的过程分析 打开登录页面，展示一个二维码(web) 打开APP扫描该二维码后，APP显示确认、取消按钮(app) 这时候登录页面展示被扫描的用户头像等信息(web) 用户在APP上点击确认登录">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://boot.ren/files/QQ20190118-152120@2x.png">
+<meta property="og:image" content="http://boot.ren/files/QQ20190118-153216@2x.png">
+<meta property="og:image" content="http://boot.ren/files/QQ20190118-152444@2x.png">
+<meta property="og:updated_time" content="2019-01-18T08:54:13.793Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网页扫码登录原理及过程">
+<meta name="twitter:description" content="网页扫码登录原理及过程 现实中我们经常会用上扫码登录的方式，可以借助微信、qq等oauth2认证方式，也可以通过APP实现扫码登录。那么现在我们介绍下通过app实现扫码登录的一系列原理，及实现的过程。  扫码的过程分析 打开登录页面，展示一个二维码(web) 打开APP扫描该二维码后，APP显示确认、取消按钮(app) 这时候登录页面展示被扫描的用户头像等信息(web) 用户在APP上点击确认登录">
+<meta name="twitter:image" content="http://boot.ren/files/QQ20190118-152120@2x.png">
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'post'
+  };
+</script>
+
+  <title> 网页扫码登录原理及过程 | 泽睿的自言自语 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand" rel="start">
+      <span class="logo">
+        <i class="icon-next-logo"></i>
+      </span>
+      <span class="site-title">泽睿的自言自语</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon icon-next-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            <i class="menu-item-icon icon-next-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            <i class="menu-item-icon icon-next-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content"> 
+
+  <div id="posts" class="posts-expand">
+    
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      
+      
+        <h1 class="post-title" itemprop="name headline">
+          
+          
+            
+              网页扫码登录原理及过程
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于
+          <time itemprop="dateCreated" datetime="2019-01-18T11:38:53+08:00" content="2019-01-18">
+            2019-01-18
+          </time>
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/2019/01/18/扫码登录原理及过程/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count ds-thread-count" data-thread-key="2019/01/18/扫码登录原理及过程/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+          
+        
+      </div>
+    </header>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h1 id="网页扫码登录原理及过程"><a href="#网页扫码登录原理及过程" class="headerlink" title="网页扫码登录原理及过程"></a>网页扫码登录原理及过程</h1><blockquote>
+<p>现实中我们经常会用上扫码登录的方式，可以借助微信、qq等oauth2认证方式，也可以通过APP<br>实现扫码登录。那么现在我们介绍下通过app实现扫码登录的一系列原理，及实现的过程。</p>
+</blockquote>
+<h3 id="扫码的过程分析"><a href="#扫码的过程分析" class="headerlink" title="扫码的过程分析"></a>扫码的过程分析</h3><ol>
+<li>打开登录页面，展示一个二维码(web)</li>
+<li>打开APP扫描该二维码后，APP显示确认、取消按钮(app)</li>
+<li>这时候登录页面展示被扫描的用户头像等信息(web)</li>
+<li>用户在APP上点击确认登录(app)</li>
+<li>页面登录成功，并进入主应用程序页面(web)</li>
+</ol>
+<h3 id="原理分析"><a href="#原理分析" class="headerlink" title="原理分析"></a>原理分析</h3><ul>
+<li>页面展示的二维码内容(包含一个ticket或者叫token也行)，在后台临时缓存中很重要</li>
+<li>该ticket是关联扫码人信息及后台用户库的关键</li>
+</ul>
+<h3 id="安全性分析"><a href="#安全性分析" class="headerlink" title="安全性分析"></a>安全性分析</h3><ul>
+<li>该ticket是随机生成、可以是随机串、url等。只要保证其内容唯一即可。</li>
+<li>肯定是登录APP后才可以扫描，所以接收扫描结果的通道要对APP安全。防止第三方模拟请求(关键)。</li>
+</ul>
+<h3 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h3><h4 id="1-开发一个登录页面，支持用户名、密码登录、同时可以切换成二维码登录"><a href="#1-开发一个登录页面，支持用户名、密码登录、同时可以切换成二维码登录" class="headerlink" title="1. 开发一个登录页面，支持用户名、密码登录、同时可以切换成二维码登录"></a>1. 开发一个登录页面，支持用户名、密码登录、同时可以切换成二维码登录</h4><p><img src="/files/QQ20190118-152120@2x.png" width="300px" height="300px"></p>
+<h4 id="2-当切换成二维码登录时，从后端接口获取一个ticket生成二维码，并且开始从后台轮训扫描结果"><a href="#2-当切换成二维码登录时，从后端接口获取一个ticket生成二维码，并且开始从后台轮训扫描结果" class="headerlink" title="2. 当切换成二维码登录时，从后端接口获取一个ticket生成二维码，并且开始从后台轮训扫描结果"></a>2. 当切换成二维码登录时，从后端接口获取一个ticket生成二维码，并且开始从后台轮训扫描结果</h4><p><img src="/files/QQ20190118-153216@2x.png" width="400px" height="300px"></p>
+<blockquote>
+<p>返回结果可以是单独ticket串，也可以是url(方便通过其他扫码工具扫描后转向公司宣传页面)</p>
+</blockquote>
+<p><img src="/files/QQ20190118-152444@2x.png" width="400px" height="300px"></p>
+<blockquote>
+<p>每隔1~2秒轮循环后台扫描结果。</p>
+</blockquote>
+<h4 id="3-后端返回ticket的的接口过程"><a href="#3-后端返回ticket的的接口过程" class="headerlink" title="3. 后端返回ticket的的接口过程"></a>3. 后端返回ticket的的接口过程</h4><ul>
+<li>创建一个2分钟有效的唯一ticket串(全局唯一随机码),可以借助redis缓存来做时效性控制。</li>
+<li>存储redis中键为ticket值，value默认为unknown表示等待扫描（app扫描会改变value）</li>
+<li>把生成的ticket放入session域中，这样轮训状态接口就可以不附带ticket(进一步增强了安全性)</li>
+</ul>
+<p>代码参考:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/qrcode/generate"</span>,method = RequestMethod.POST)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Map&lt;String,String&gt; <span class="title">generateQrCode</span><span class="params">(HttpServletRequest request)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    String qrcode = qrcodeService.createQrcode();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//二维码登录ticket 放入session中</span></span><br><span class="line">    request.getSession().setAttribute(QRCODE_TICKET_KEY,qrcode);</span><br><span class="line"></span><br><span class="line">    Map&lt;String,String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    map.put(QRCODE_TICKET_KEY,domainUrl+<span class="string">"ierp/qrcode/redirect?q="</span>+qrcode);</span><br><span class="line">    <span class="keyword">return</span> map;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>$qrcodeService#createQrcode()</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 创建一个2分钟有效的用来登录的二维码</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">createQrcode</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    String qrCodeTicket;</span><br><span class="line">    <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">        qrCodeTicket = <span class="string">"sso"</span>+RandomStringUtils.randomAlphanumeric(<span class="number">30</span>);</span><br><span class="line">        <span class="keyword">if</span>(redisTemplate.hasKey(QRCODE_REDIS_KEY_PREFIX+qrCodeTicket))&#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//生成登录ticket对应的缓存key,2分钟有效 , key存在则有效,key不存在表示该ticket失效</span></span><br><span class="line">        redisTemplate.boundValueOps(QRCODE_REDIS_KEY_PREFIX+qrCodeTicket).set(<span class="string">"unknown"</span>,TIMEOUT, TimeUnit.MINUTES);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> qrCodeTicket;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="4-后端轮询扫描状态的接口详解"><a href="#4-后端轮询扫描状态的接口详解" class="headerlink" title="4. 后端轮询扫描状态的接口详解"></a>4. 后端轮询扫描状态的接口详解</h4><ul>
+<li>页面轮询接口不需要向服务器传参，借助session域中的ticket值来向后端获取扫描结果</li>
+<li>二维码存在多种状态<ul>
+<li>二维码超时，状态为-2，获取的value为空，提示无效的二维码。</li>
+<li>二维码待扫描，状态为-1，获取的value为初始值unknown。</li>
+<li>二维码扫描成功，未确认登录，状态为0，获取的value为包含用户信息的json串，confirm 为false。(获取该状态后可以展示扫描用户的头像)</li>
+<li>二维码扫描陈工，确认登录，状态为1，获取的value为包含用户信息的json串，confirm 为true。(获取该状态后可以提交之前，搞个过渡动画)</li>
+</ul>
+</li>
+</ul>
+<p>参考代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取二维码的扫码状态</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> qrCodeTicket</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> QrcodeStatus <span class="title">getQrcodeStatus</span><span class="params">(String qrCodeTicket)</span></span>&#123;</span><br><span class="line">    String value = redisTemplate.boundValueOps(QRCODE_REDIS_KEY_PREFIX + qrCodeTicket).get();</span><br><span class="line">    <span class="keyword">if</span>(value==<span class="keyword">null</span>||<span class="string">""</span>.equals(value))&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> QrcodeStatus(-<span class="number">2</span>,<span class="string">"无效的二维码"</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(value.equals(<span class="string">"unknown"</span>))&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> QrcodeStatus(-<span class="number">1</span>,<span class="string">"待扫描的二维码"</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            JsonNode jsonNode = objectMapper.readValue(value, JsonNode.class);</span><br><span class="line">            String accountName = jsonNode.path(<span class="string">"accountName"</span>).asText();</span><br><span class="line">            String accountPic = jsonNode.path(<span class="string">"accountPic"</span>).asText();</span><br><span class="line">            <span class="keyword">boolean</span> confirm = jsonNode.path(<span class="string">"confirm"</span>).asBoolean();</span><br><span class="line">            <span class="keyword">if</span>(confirm)&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> QrcodeStatus(<span class="number">1</span>,accountName,accountPic,<span class="string">"确认登录"</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> QrcodeStatus(<span class="number">0</span>,accountName,accountPic,<span class="string">"未确认登录,用来显示头像"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> QrcodeStatus(-<span class="number">3</span>,<span class="string">"未知错误"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="5-APP扫描二维码及点击确认登录的后台接口-注意该接口只开放给app调用，本示例是后端api，其实前面还有一层app网关代理，已经做了相应的令牌校验、sign校验"><a href="#5-APP扫描二维码及点击确认登录的后台接口-注意该接口只开放给app调用，本示例是后端api，其实前面还有一层app网关代理，已经做了相应的令牌校验、sign校验" class="headerlink" title="5. APP扫描二维码及点击确认登录的后台接口(注意该接口只开放给app调用，本示例是后端api，其实前面还有一层app网关代理，已经做了相应的令牌校验、sign校验)"></a>5. APP扫描二维码及点击确认登录的后台接口(注意该接口只开放给app调用，本示例是后端api，其实前面还有一层app网关代理，已经做了相应的令牌校验、sign校验)</h4><ul>
+<li>app扫描的前提必须已经登录。</li>
+<li>app扫描网页二维码，向后台请求接口，传入用户标识、扫描状态(确认状态)、ticket值</li>
+<li>后台判断app提交过来的参数，并校验后，更新redis缓存中ticket的value(存入用户信息json及confirm状态)。</li>
+<li>校验失败的相关错误信息要在app端提示出来的。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ApiOperation</span>(<span class="string">"扫码登录"</span>)</span><br><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/qrcode/login"</span>, method = RequestMethod.POST)</span><br><span class="line"><span class="function"><span class="keyword">public</span> AppResult <span class="title">qrLogin</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">        @ApiParam(value = <span class="string">"手机号"</span>, required = <span class="keyword">true</span>)</span> @<span class="title">RequestParam</span><span class="params">(<span class="string">"accountName"</span>)</span> String accountName,</span></span><br><span class="line"><span class="function">        @<span class="title">ApiParam</span><span class="params">(value = <span class="string">"账套编号"</span>, required = <span class="keyword">false</span>)</span> @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"entCode"</span>,required = <span class="keyword">false</span>)</span> String entCode,</span></span><br><span class="line"><span class="function">        @<span class="title">ApiParam</span><span class="params">(value = <span class="string">"个人头像url地址"</span>, required = <span class="keyword">false</span>)</span> @<span class="title">RequestParam</span><span class="params">(value = <span class="string">"accountPic"</span>, required = <span class="keyword">false</span>)</span> String accountPic,</span></span><br><span class="line"><span class="function">        @<span class="title">ApiParam</span><span class="params">(value = <span class="string">"是否确认登录 传参: 0否 1是"</span>, required = <span class="keyword">true</span>)</span> @<span class="title">RequestParam</span><span class="params">(<span class="string">"confirm"</span>)</span> String confirm,</span></span><br><span class="line"><span class="function">        @<span class="title">ApiParam</span><span class="params">(value = <span class="string">"二维码值"</span>, required = <span class="keyword">true</span>)</span> @<span class="title">RequestParam</span><span class="params">(<span class="string">"ticket"</span>)</span> String ticket) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (ticket.contains(<span class="string">"="</span>)) &#123;</span><br><span class="line">            ticket = ticket.substring(ticket.indexOf(<span class="string">"="</span>) + <span class="number">1</span>, ticket.length());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (ticket == <span class="keyword">null</span> || !ticket.startsWith(<span class="string">"sso"</span>)) &#123;</span><br><span class="line">            <span class="keyword">return</span> error(<span class="string">"fail"</span>, <span class="string">"无效的二维码"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String value = redisTemplate.boundValueOps(QRCODE_REDIS_KEY_PREFIX + ticket).get();</span><br><span class="line">        <span class="keyword">if</span> (value == <span class="keyword">null</span> || <span class="string">""</span>.equals(value)) &#123;<span class="comment">//无效的二维码</span></span><br><span class="line">            <span class="keyword">return</span> error(<span class="string">"fail"</span>, <span class="string">"二维码过期"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span>(!value.equals(<span class="string">"unknown"</span>))&#123;</span><br><span class="line">                Map map = objectMapper.readValue(value, Map.class);</span><br><span class="line">                String name = (String)map.get(<span class="string">"accountName"</span>);</span><br><span class="line">                <span class="keyword">if</span>(name!=<span class="keyword">null</span>&amp;&amp;!name.equals(accountName))&#123;</span><br><span class="line">                    <span class="keyword">return</span> error(<span class="string">"fail"</span>,<span class="string">"二维码已经被他人使用"</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            Map&lt;String, Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">            map.put(<span class="string">"accountName"</span>, accountName);</span><br><span class="line">            <span class="keyword">if</span> (accountPic != <span class="keyword">null</span>) &#123;</span><br><span class="line">                map.put(<span class="string">"accountPic"</span>, accountPic);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (entCode != <span class="keyword">null</span>) &#123;</span><br><span class="line">                map.put(<span class="string">"entCode"</span>, entCode);</span><br><span class="line">            &#125;</span><br><span class="line">            map.put(<span class="string">"confirm"</span>, confirm != <span class="keyword">null</span> &amp;&amp; confirm.equals(<span class="string">"1"</span>));</span><br><span class="line">            redisTemplate.boundValueOps(QRCODE_REDIS_KEY_PREFIX + ticket).set(objectMapper.writeValueAsString(map), TIMEOUT, TimeUnit.MINUTES);</span><br><span class="line">            <span class="keyword">return</span> success(); <span class="comment">//扫码后</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        log.error(e.getMessage(), e);</span><br><span class="line">        <span class="keyword">return</span> error(<span class="string">"10006"</span>, e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="6-用户在app端确认登录后，前端网页轮询到该结果，自动提交登录请求"><a href="#6-用户在app端确认登录后，前端网页轮询到该结果，自动提交登录请求" class="headerlink" title="6. 用户在app端确认登录后，前端网页轮询到该结果，自动提交登录请求"></a>6. 用户在app端确认登录后，前端网页轮询到该结果，自动提交登录请求</h4><ul>
+<li>登录提交后，后台判断如果是如果二维码登录，从session域中获取ticket值，并从根据ticket获取redis缓存中的用户信息。</li>
+<li>得到用户信息后，就可以执行正常的登录校验流程。</li>
+</ul>
+<h4 id="7-彩蛋：就是当生成的二维码是一个包含ticket值的url的时候。"><a href="#7-彩蛋：就是当生成的二维码是一个包含ticket值的url的时候。" class="headerlink" title="7. 彩蛋：就是当生成的二维码是一个包含ticket值的url的时候。"></a>7. 彩蛋：就是当生成的二维码是一个包含ticket值的url的时候。</h4><ul>
+<li>app扫描该二维码，需要解析出ticket再执行扫描结果逻辑</li>
+<li>如果是其他app扫描该二维码，会访问该url地址，这个时候你就可以做一道重定向到其他你想让用户看到的地址。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/qrcode/redirect"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">redirect</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">    <span class="comment">//判断user Agent 做相应的跳转</span></span><br><span class="line">    response.sendRedirect(<span class="string">"http://www.boot.ren"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么这个二维码就会即起到了扫码登陆的作用，也起到了扫描下载app，或者进入宣传网站的作用。可谓一举多得。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/扫码/" rel="tag">#扫码</a>
+          
+            <a href="/tags/登录/" rel="tag">#登录</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/23/在spring-boot-data-jpa中设置全局hibernate拦截器Interceptor/" rel="next">在spring-boot-data-jpa中设置全局hibernate拦截器Interceptor</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+ </div>
+
+        
+
+        
+          <div class="comments" id="comments">
+            
+              <div class="ds-thread" data-thread-key="2019/01/18/扫码登录原理及过程/"
+                   data-title="网页扫码登录原理及过程" data-url="http://boot.ren/2019/01/18/扫码登录原理及过程/">
+              </div>
+            
+          </div>
+        
+      </div>
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <a href="https://github.com/izerui"><img class="site-author-image" src="https://avatars0.githubusercontent.com/u/1773233?v=3&s=460" alt="serv" itemprop="image"/></a>
+          <p class="site-author-name" itemprop="name">serv</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">Spring Boot 分布式技术博客</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">43</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#网页扫码登录原理及过程"><span class="nav-number">1.</span> <span class="nav-text">网页扫码登录原理及过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#扫码的过程分析"><span class="nav-number">1.0.1.</span> <span class="nav-text">扫码的过程分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原理分析"><span class="nav-number">1.0.2.</span> <span class="nav-text">原理分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安全性分析"><span class="nav-number">1.0.3.</span> <span class="nav-text">安全性分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现过程"><span class="nav-number">1.0.4.</span> <span class="nav-text">实现过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-开发一个登录页面，支持用户名、密码登录、同时可以切换成二维码登录"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">1. 开发一个登录页面，支持用户名、密码登录、同时可以切换成二维码登录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-当切换成二维码登录时，从后端接口获取一个ticket生成二维码，并且开始从后台轮训扫描结果"><span class="nav-number">1.0.4.2.</span> <span class="nav-text">2. 当切换成二维码登录时，从后端接口获取一个ticket生成二维码，并且开始从后台轮训扫描结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-后端返回ticket的的接口过程"><span class="nav-number">1.0.4.3.</span> <span class="nav-text">3. 后端返回ticket的的接口过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-后端轮询扫描状态的接口详解"><span class="nav-number">1.0.4.4.</span> <span class="nav-text">4. 后端轮询扫描状态的接口详解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-APP扫描二维码及点击确认登录的后台接口-注意该接口只开放给app调用，本示例是后端api，其实前面还有一层app网关代理，已经做了相应的令牌校验、sign校验"><span class="nav-number">1.0.4.5.</span> <span class="nav-text">5. APP扫描二维码及点击确认登录的后台接口(注意该接口只开放给app调用，本示例是后端api，其实前面还有一层app网关代理，已经做了相应的令牌校验、sign校验)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-用户在app端确认登录后，前端网页轮询到该结果，自动提交登录请求"><span class="nav-number">1.0.4.6.</span> <span class="nav-text">6. 用户在app端确认登录后，前端网页轮询到该结果，自动提交登录请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-彩蛋：就是当生成的二维码是一个包含ticket值的url的时候。"><span class="nav-number">1.0.4.7.</span> <span class="nav-text">7. 彩蛋：就是当生成的二维码是一个包含ticket值的url的时候。</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner"> <div class="copyright" >
+  
+  &copy; &nbsp; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="icon-next-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">serv</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1256526924'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D1256526924%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+
+ </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"izerui"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+    
+  
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.1"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.1"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.5.1" id="motion.global"></script>
+
+
+
+
+  <script type="text/javascript" src="/js/nav-toggle.js?v=0.4.5.1"></script>
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.1" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+      if (isMobile()) {
+        FastClick.attach(document.body);
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $("#posts").find('img').lazyload({
+        placeholder: "/images/loading.gif",
+        effect: "fadeIn"
+      });
+    });
+  </script>
+</body>
+</html>
