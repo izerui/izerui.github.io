@@ -1,6 +1,6 @@
 ---
 layout: mac
-title: Mac 解决 gyp: No Xcode or CLT version detected! 报错
+title: Mac 解决 "No Xcode or CLT version detected! 报错"
 date: 2020-05-08 10:50:04
 tags:
 ---
